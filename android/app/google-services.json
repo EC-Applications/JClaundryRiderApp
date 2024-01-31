@@ -1,0 +1,178 @@
+{
+  "project_info": {
+    "project_number": "401283255369",
+    "project_id": "jabchaho-3a04f",
+    "storage_bucket": "jabchaho-3a04f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401283255369:android:6c4e6947f60eb250b9c398",
+        "android_client_info": {
+          "package_name": "com.jabchaho.laundry_delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401283255369-ngne71c31frpoggdt9ctq48fk0rp8dpc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-MfGk1apo2sPvYmdBu0tCodFjlGJVXi0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401283255369-b1j1pkj2ind9siju761du3jb1t2mmvhr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "401283255369-affffgcscf0ff4hfbg63tg212hr1pevm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jabchaho.restaurant"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401283255369:android:8649ee0e77f97605b9c398",
+        "android_client_info": {
+          "package_name": "com.jabchaho.laundry_delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401283255369-ngne71c31frpoggdt9ctq48fk0rp8dpc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-MfGk1apo2sPvYmdBu0tCodFjlGJVXi0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401283255369-b1j1pkj2ind9siju761du3jb1t2mmvhr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "401283255369-affffgcscf0ff4hfbg63tg212hr1pevm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jabchaho.restaurant"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401283255369:android:b3c19eb6c28c6173b9c398",
+        "android_client_info": {
+          "package_name": "com.jabchaho.restaurant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401283255369-ngne71c31frpoggdt9ctq48fk0rp8dpc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-MfGk1apo2sPvYmdBu0tCodFjlGJVXi0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401283255369-b1j1pkj2ind9siju761du3jb1t2mmvhr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "401283255369-affffgcscf0ff4hfbg63tg212hr1pevm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jabchaho.restaurant"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401283255369:android:f33e7bdb91e7c050b9c398",
+        "android_client_info": {
+          "package_name": "com.jabchaho.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401283255369-3pakqb7fuscdme6cmsoat7mhvkrpp8g2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jabchaho.user",
+            "certificate_hash": "bcdb87e7633c8a4fe4caaed1b88343ef4abc094b"
+          }
+        },
+        {
+          "client_id": "401283255369-u8qksag1jsqufehgm2st44tgdjcaaue1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jabchaho.user",
+            "certificate_hash": "79c2a092588f1ab2728e007cee5dbac37941dcca"
+          }
+        },
+        {
+          "client_id": "401283255369-vf8vu0j9tkhup7b5op3c4tg4dut9l00i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jabchaho.user",
+            "certificate_hash": "db49522d827e1ebc025a4d33f3c7df9a6a3a88ad"
+          }
+        },
+        {
+          "client_id": "401283255369-ngne71c31frpoggdt9ctq48fk0rp8dpc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-MfGk1apo2sPvYmdBu0tCodFjlGJVXi0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401283255369-b1j1pkj2ind9siju761du3jb1t2mmvhr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "401283255369-affffgcscf0ff4hfbg63tg212hr1pevm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jabchaho.restaurant"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
