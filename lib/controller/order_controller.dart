@@ -825,7 +825,34 @@ class OrderController extends GetxController implements GetxService {
     });
   }
 
-
+void showPrintedConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Invoice Printed'),
+          content: Text('The invoice has been successfully printed.'),
+          actions: [
+            TextButton(
+              
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel',style: TextStyle(color:Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      .color ),),
+            ),
+             TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Print'),
+            ),
+          ],
+        );
+      },
+    );}
 
 
 

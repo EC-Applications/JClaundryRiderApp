@@ -175,20 +175,20 @@ class SignInScreen extends StatelessWidget {
               ) : Center(child: CircularProgressIndicator()),
               SizedBox(height: Get.find<SplashController>().configModel.toggleDmRegistration ? Dimensions.PADDING_SIZE_SMALL : 0),
 
-              Get.find<SplashController>().configModel.toggleDmRegistration ? TextButton(
-                style: TextButton.styleFrom(
-                  minimumSize: Size(1, 40),
-                ),
-                onPressed: () async {
-                  if(await canLaunch('${AppConstants.BASE_URL}/deliveryman/apply')) {
-                    launch('${AppConstants.BASE_URL}/deliveryman/apply');
-                  }
-                },
-                child: RichText(text: TextSpan(children: [
-                  TextSpan(text: '${'join_as_a'.tr} ', style: robotoRegular.copyWith(color: Theme.of(context).disabledColor)),
-                  TextSpan(text: 'delivery_man'.tr, style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge.color)),
-                ])),
-              ) : SizedBox(),
+              // Get.find<SplashController>().configModel.toggleDmRegistration ? TextButton(
+              //   style: TextButton.styleFrom(
+              //     minimumSize: Size(1, 40),
+              //   ),
+              //   onPressed: () async {
+              //     if(await canLaunch('${AppConstants.BASE_URL}/deliveryman/apply')) {
+              //       launch('${AppConstants.BASE_URL}/deliveryman/apply');
+              //     }
+              //   },
+              //   child: RichText(text: TextSpan(children: [
+              //     TextSpan(text: '${'join_as_a'.tr} ', style: robotoRegular.copyWith(color: Theme.of(context).disabledColor)),
+              //     TextSpan(text: 'delivery_man'.tr, style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge.color)),
+              //   ])),
+              // ) : SizedBox(),
 
             ],);
           }),
