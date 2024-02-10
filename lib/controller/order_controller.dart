@@ -24,6 +24,7 @@ import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -824,35 +825,6 @@ class OrderController extends GetxController implements GetxService {
       _orderHistory.add(order);
     });
   }
-
-void showPrintedConfirmation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Invoice Printed'),
-          content: Text('The invoice has been successfully printed.'),
-          actions: [
-            TextButton(
-              
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel',style: TextStyle(color:Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      .color ),),
-            ),
-             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Print'),
-            ),
-          ],
-        );
-      },
-    );}
 
 
 

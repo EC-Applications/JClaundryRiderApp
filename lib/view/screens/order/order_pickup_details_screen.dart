@@ -28,6 +28,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import 'widget/print_invoice_dialog.dart';
+
 class OrderPickupDetailsScreen extends StatefulWidget {
   final OrderList orderList;
   OrderPickupDetailsScreen({@required this.orderList});
@@ -644,7 +646,12 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                       .bodyLarge
                                                       .color,
                                                   callback: () {
-                                                    orderController.showPrintedConfirmation(context);
+                                                  showPrintedConfirmation(
+                                                    context: context,
+                                                    title: "Invoice",
+                                                    message: "Are You Sure",
+                                                    posmethod: () => print("pos"),
+                                                  );
                                                   },
                                                 )
                                           : SizedBox()
