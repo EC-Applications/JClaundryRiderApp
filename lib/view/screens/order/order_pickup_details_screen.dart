@@ -26,9 +26,11 @@ import 'package:efood_multivendor_driver/view/screens/order/widget/slider_button
 import 'package:efood_multivendor_driver/view/screens/order/widget/verify_delivery_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'widget/print_invoice_dialog.dart';
+import 'widget/generate_invoice.dart';
 
 class OrderPickupDetailsScreen extends StatefulWidget {
   final OrderList orderList;
@@ -645,13 +647,24 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                       .textTheme
                                                       .bodyLarge
                                                       .color,
-                                                  callback: () {
-                                                  showPrintedConfirmation(
-                                                    context: context,
-                                                    title: "Invoice",
-                                                    message: "Are You Sure",
-                                                    posmethod: () => print("pos"),
-                                                  );
+                                                  callback: () async{
+                                                  // showPrintedConfirmation(
+                                                  //   context: context,
+                                                  //   title: "Invoice",
+                                                  //   message: "Are You Sure",
+                                                    
+                                                  // );
+                                                   try {
+    final pdf = await generatePdf(PdfPageFormat.roll57,orderDetailsModel: orderController.laundryOrderDetailsModel);
+    if (pdf != null) {
+      await Printing.sharePdf(bytes: pdf);
+    } else {
+      print('Failed to generate PDF');
+    }
+  } catch (e, stackTrace) {
+    print('Error: $e');
+    print(stackTrace);
+  }
                                                   },
                                                 )
                                           : SizedBox()
@@ -1111,3 +1124,4 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
     }
   }
 }
+

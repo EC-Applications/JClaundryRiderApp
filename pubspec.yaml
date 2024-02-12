@@ -43,10 +43,13 @@ dependencies:
   file: ^6.1.4
   dotted_line: ^3.1.0
   dotted_border: ^2.0.0+3
-  path: ^1.8.0
-  pdf:
-  flutter_pdfview: 
 
+  pdf: ^3.1.0
+
+
+  intl: ^0.17.0
+  google_fonts: 
+  printing: 
 
 dependency_overrides:
   modal_bottom_sheet:
@@ -57,6 +60,7 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
@@ -77,3 +81,5 @@ flutter:
           weight: 700
         - asset: assets/font/Roboto-Black.ttf
           weight: 900
+        - asset: assets/font/NotoSans-Regular.ttf
+          weight: 400
