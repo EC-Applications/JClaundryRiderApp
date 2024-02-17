@@ -39,7 +39,8 @@ class _NewRequestDialogState extends State<NewRequestDialog> {
     AudioCache _audio = AudioCache();
     _audio.play('notification.mp3');
     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
-      _audio.play('notification.mp3');
+      //_audio.play('notification.mp3');
+        _timer?.cancel();
     });
   }
 

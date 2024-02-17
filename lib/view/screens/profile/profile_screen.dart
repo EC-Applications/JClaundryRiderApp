@@ -68,6 +68,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ]),
                 SizedBox(height: 30),
 
+                  
+
+
                 ProfileButton(icon: Icons.dark_mode, title: 'dark_mode'.tr, isButtonActive: Get.isDarkMode, onTap: () {
                   Get.find<ThemeController>().toggleTheme();
                 }),
@@ -85,6 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Get.toNamed(RouteHelper.getLanguageRoute());
                 }),
                 SizedBox(height: Dimensions.PADDING_SIZE_SMALL),
+                
 
                 ProfileButton(icon: Icons.lock, title: 'change_password'.tr, onTap: () {
                   Get.toNamed(RouteHelper.getResetPasswordRoute('', '', 'password-change'));

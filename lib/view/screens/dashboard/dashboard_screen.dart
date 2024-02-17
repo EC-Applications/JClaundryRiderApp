@@ -19,6 +19,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
+import '../wallet/Rider_Wallet.dart';
+
 class DashboardScreen extends StatefulWidget {
   final int pageIndex;
   DashboardScreen({@required this.pageIndex});
@@ -47,6 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _screens = [
       HomeScreen(),
       OrderScreen(fromNav: true),
+       RiderWallet(),
       SupportScreen(),
       ProfileScreen(),
     ];
@@ -153,8 +156,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               BottomNavItem(imgUrl: Images.order, title: 'orders', isSelected: _pageIndex == 1, onTap: () {
                 _setPage(1);
               }),
-              BottomNavItem(imgUrl: Images.help, title: 'help', isSelected: _pageIndex == 2, onTap: () => _setPage(2)),
-              BottomNavItem(imgUrl: Images.profile, title: 'profile', isSelected: _pageIndex == 3, onTap: () => _setPage(3)),
+               BottomNavItem(imgUrl: Images.wallet, title: 'wallet', isSelected: _pageIndex == 2, onTap: () => _setPage(2)),
+              BottomNavItem(imgUrl: Images.help, title: 'help', isSelected: _pageIndex == 23, onTap: () => _setPage(3)),
+              BottomNavItem(imgUrl: Images.profile, title: 'profile', isSelected: _pageIndex == 4, onTap: () => _setPage(4)),
 
             ]),
           ),

@@ -23,6 +23,7 @@ import 'package:efood_multivendor_driver/view/screens/support/support_screen.dar
 import 'package:efood_multivendor_driver/view/screens/update/update_screen.dart';
 import 'package:get/get.dart';
 
+
 class RouteHelper {
   static const String initial = '/';
   static const String splash = '/splash';
@@ -47,6 +48,7 @@ class RouteHelper {
   static const String support = '/help-and-support';
   static const String trackPath = '/track-path';
   static const String laundryNotification = '/laundry-notification';
+
 
   static String getInitialRoute() => '$initial';
   static String getSplashRoute() => '$splash';
@@ -78,6 +80,7 @@ class RouteHelper {
   static String getSupportRoute() => '$support';
   static String getTrackPathRoute() => '$trackPath';
   static String getLaundryNotificationRoute() => '$laundryNotification';
+
 
 
   static List<GetPage> routes = [
@@ -116,5 +119,6 @@ class RouteHelper {
     GetPage(name: support, page: () => SupportScreen()),
     GetPage(name: trackPath, page: () => AllOrderMap()),
     GetPage(name: laundryNotification, page: () => NotificationScreenLaundry()),
+
   ];
 }

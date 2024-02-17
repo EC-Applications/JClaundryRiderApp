@@ -1,5 +1,6 @@
 import 'package:efood_multivendor_driver/data/model/response/language_model.dart';
 import 'package:efood_multivendor_driver/util/images.dart';
+import 'package:flutter/material.dart';
 
 class AppConstants {
   static const String APP_NAME = 'JabChaho Delivery';
@@ -89,4 +90,7 @@ class AppConstants {
   static const String all = 'all';
   static const String pickedUp = 'picked_up';
   static const String delivered = 'delivered';
+
+  static Color Earningscardcolor = Colors.orange;
+  static Color handcahscardcolor = Colors.green;
 }

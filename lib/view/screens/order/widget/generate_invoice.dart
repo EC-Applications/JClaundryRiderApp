@@ -78,7 +78,6 @@ int MainTotal = subtotal - Discount - couponDiscount +vat + DeliveryFee;
                 ],
               ),
               for (var row in apiData)
-              
                 pw.TableRow(
                   children: [
                     pw.Center(child: pw.Text(row['name'].toString())),
@@ -92,7 +91,6 @@ int MainTotal = subtotal - Discount - couponDiscount +vat + DeliveryFee;
           ),
         pw.Divider(),
           pw.SizedBox(height: 10),
-
              pw.Text('Items Total : RS $overallTotal'),
              pw.Text('Addon Cost: RS $addons'),
              pw.Text('SubTotal : RS ${addons+overallTotal}'),

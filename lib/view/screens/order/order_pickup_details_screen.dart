@@ -30,7 +30,15 @@ import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+
 import 'widget/generate_invoice.dart';
+
+
+import 'package:esc_pos_utils/esc_pos_utils.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart' as esc;
+import 'package:esc_pos_printer/esc_pos_printer.dart';
+
+
 
 class OrderPickupDetailsScreen extends StatefulWidget {
   final OrderList orderList;
@@ -647,26 +655,16 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                       .textTheme
                                                       .bodyLarge
                                                       .color,
-                                                  callback: () async{
-                                                  // showPrintedConfirmation(
-                                                  //   context: context,
-                                                  //   title: "Invoice",
-                                                  //   message: "Are You Sure",
-                                                    
-                                                  // );
-                                                   try {
-    final pdf = await generatePdf(PdfPageFormat.roll57,orderDetailsModel: orderController.laundryOrderDetailsModel);
-    if (pdf != null) {
-      await Printing.sharePdf(bytes: pdf);
-    } else {
-      print('Failed to generate PDF');
-    }
-  } catch (e, stackTrace) {
-    print('Error: $e');
-    print(stackTrace);
-  }
-                                                  },
-                                                )
+                                                  callback:
+                                                  () async {
+                await Printing.layoutPdf( onLayout: (PdfPageFormat format) async {
+                  // Generate your PDF here
+                  final pdf = await generatePdf(PdfPageFormat.roll57,orderDetailsModel: orderController.laundryOrderDetailsModel);
+                  return pdf;
+                });
+                print("success");
+              },
+                                                 )
                                           : SizedBox()
                                       : SizedBox(),
                                 ],
@@ -1040,6 +1038,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                               orderAmount:
                                                   widget.orderList.orderAmount,
                                               onTap: () async {
+                                                print(widget.orderList.orderAmount);
                                                 Get.back();
                                                 await orderController
                                                     .updateOrderStatus(
@@ -1124,4 +1123,5 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
     }
   }
 }
+
 

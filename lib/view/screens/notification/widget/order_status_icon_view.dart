@@ -13,9 +13,6 @@ class OrderStatusIconView extends StatelessWidget {
     this.imgWidth = 18,
   });
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
