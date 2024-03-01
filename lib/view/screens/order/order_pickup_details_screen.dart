@@ -51,7 +51,10 @@ class OrderPickupDetailsScreen extends StatefulWidget {
 
 class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
   bool isDelivered = false;
+
   TextEditingController cancelController = TextEditingController();
+    TextEditingController customReasonController = TextEditingController();
+    TextEditingController returnReasonController = TextEditingController();
 
   loadData() async {
     await Get.find<OrderController>()
@@ -656,15 +659,29 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                       .bodyLarge
                                                       .color,
                                                   callback:
-                                                  () async {
-                await Printing.layoutPdf( onLayout: (PdfPageFormat format) async {
+                                                   () async {
+                await Printing.layoutPdf( 
+                  format: PdfPageFormat.roll57,
+                  onLayout: (PdfPageFormat format) async {
                   // Generate your PDF here
                   final pdf = await generatePdf(PdfPageFormat.roll57,orderDetailsModel: orderController.laundryOrderDetailsModel);
                   return pdf;
                 });
                 print("success");
               },
-                                                 )
+//                               () async {
+//   await Printing.layoutPdf(onLayout: (PdfPageFormat format) async {
+//     // Choose the desired paper size for photos, for example, letter size (8.5 x 11 inches)
+//     final PdfPageFormat photoFormat = PdfPageFormat(3.5 * PdfPageFormat.inch,
+//         6 * PdfPageFormat.inch, marginAll: 0);
+
+//     // Generate your PDF using the selected format
+//     final pdf = await generatePdf(photoFormat, orderDetailsModel: orderController.laundryOrderDetailsModel);
+//     return pdf;
+//   });
+//   print("success");
+// },
+                   )
                                           : SizedBox()
                                       : SizedBox(),
                                 ],
@@ -697,10 +714,118 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                   .textTheme
                                                   .bodyLarge
                                                   .color,
-                                              callback: () {},
+                                              callback: () {
+                                                  Get.dialog(
+                                                    AlertDialog(
+                                                       titlePadding: EdgeInsets.zero,
+                                                       title:  Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 8.0,
+                top: 4.0,
+              ),
+              child: Text('Please select reason for Delivery deferral'.tr),
+            ),
+          ),
+          IconButton(
+            onPressed: () => Get.back(),
+            icon: Icon(
+              Icons.highlight_remove_sharp,
+              color: Theme.of(context).disabledColor,
+            ),
+          ),
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+           Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      TextField(
+                                                        controller:
+                                                          customReasonController,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    Dimensions
+                                                                        .RADIUS_SMALL),
+                                                            borderSide: BorderSide(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .disabledColor,
+                                                                width: 1),
+                                                          ),
+                                                          hintText:
+                                                              'Enter_Deferred_reason'
+                                                                  .tr,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: Dimensions
+                                                            .PADDING_SIZE_DEFAULT,
+                                                      ),
+                                                      CustomButton(
+                                                        buttonText: 'submit'.tr,
+                                                        backgroundColor:
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                        fontColor:
+                                                            Theme.of(context)
+                                                                .cardColor,
+                                                        radius: Dimensions
+                                                            .RADIUS_DEFAULT,
+                                                        onPressed: () async {
+                                                          if (customReasonController
+                                                              .text
+                                                              .isNotEmpty) {
+                                                            Navigator.pop(
+                                                                context);
+                                                            Get.offNamed(RouteHelper
+                                                                .getInitialRoute());
+                                                            await orderController
+                                                                .updateOrderStatus(
+                                                              UpdateStatusBody(
+                                                                  orderId: orderController
+                                                                      .orderListModel
+                                                                      .id
+                                                                      .toString(),
+                                                                  status: AppConstants
+                                                                      .DEFERRED,
+                                                                  token: Get.find<
+                                                                          AuthController>()
+                                                                      .getUserToken(),
+                                                                 deferred_reason: 
+                                                                      customReasonController
+                                                                          .text),
+                                                              _callBack,
+                                                            );
+                                                          } else {
+                                                            showCustomSnackBar(
+                                                                'Enter_Deferred_reason'
+                                                                    .tr,
+                                                            );
+                                                        
+                                                        }
+                                                        }
+                                                      ),
+                                                    ],
+                                                  ),
+        ],
+        )
+                                                    )
+                                                  );
+                                              }
                                             )
                                           : SizedBox()
                                       : SizedBox(),
+
                                   (orderController.laundryOrderDetailsModel
                                               .orderStatus ==
                                           AppConstants.OUT_FOR_PICKUP)
@@ -822,6 +947,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                             )
                                           : SizedBox()
                                       : SizedBox(),
+                                      
                                 ],
                               ),
 
@@ -832,12 +958,12 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                   : SizedBox(
                                       height: Dimensions.PADDING_SIZE_DEFAULT,
                                     ),
-
                               // -------------Out for delivery comment
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
+
                                   //defer pickup button
                                   (orderController.laundryOrderDetailsModel
                                               .orderStatus ==
@@ -851,7 +977,114 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                   .textTheme
                                                   .bodyLarge
                                                   .color,
-                                              callback: () {},
+                                              callback: () {
+                                                  Get.dialog(
+                                                    AlertDialog(
+                                                       titlePadding: EdgeInsets.zero,
+                                                       title:  Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 8.0,
+                top: 4.0,
+              ),
+              child: Text('Please select reason for Delivery deferral'.tr),
+            ),
+          ),
+          IconButton(
+            onPressed: () => Get.back(),
+            icon: Icon(
+              Icons.highlight_remove_sharp,
+              color: Theme.of(context).disabledColor,
+            ),
+          ),
+        ],
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+           Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      TextField(
+                                                        controller:
+                                                          customReasonController,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    Dimensions
+                                                                        .RADIUS_SMALL),
+                                                            borderSide: BorderSide(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .disabledColor,
+                                                                width: 1),
+                                                          ),
+                                                          hintText:
+                                                              'Enter_Deferred_reason'
+                                                                  .tr,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: Dimensions
+                                                            .PADDING_SIZE_DEFAULT,
+                                                      ),
+                                                      CustomButton(
+                                                        buttonText: 'submit'.tr,
+                                                        backgroundColor:
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                        fontColor:
+                                                            Theme.of(context)
+                                                                .cardColor,
+                                                        radius: Dimensions
+                                                            .RADIUS_DEFAULT,
+                                                        onPressed: () async {
+                                                          if (customReasonController
+                                                              .text
+                                                              .isNotEmpty) {
+                                                            Navigator.pop(
+                                                                context);
+                                                            Get.offNamed(RouteHelper
+                                                                .getInitialRoute());
+                                                            await orderController
+                                                                .updateOrderStatus(
+                                                              UpdateStatusBody(
+                                                                  orderId: orderController
+                                                                      .orderListModel
+                                                                      .id
+                                                                      .toString(),
+                                                                  status: AppConstants
+                                                                      .DEFERRED,
+                                                                  token: Get.find<
+                                                                          AuthController>()
+                                                                      .getUserToken(),
+                                                                 deferred_reason: 
+                                                                      customReasonController
+                                                                          .text),
+                                                              _callBack,
+                                                            );
+                                                          } else {
+                                                            showCustomSnackBar(
+                                                                'Enter_Deferred_reason'
+                                                                    .tr,
+                                                            );
+                                                        
+                                                        }
+                                                        }
+                                                      ),
+                                                    ],
+                                                  ),
+        ],
+        )
+                                                    )
+                                                  );
+                                              }
                                             )
                                           : SizedBox()
                                       : SizedBox(),
@@ -881,7 +1114,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                             top: Dimensions
                                                                 .PADDING_SIZE_SMALL),
                                                         child: Text(
-                                                            'cancellation_reason'
+                                                            'Return_reason'
                                                                 .tr),
                                                       )),
                                                       IconButton(
@@ -918,7 +1151,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                                 width: 1),
                                                           ),
                                                           hintText:
-                                                              'enter_cancellation_reason'
+                                                              'enter_Return_reason'
                                                                   .tr,
                                                         ),
                                                       ),
@@ -952,18 +1185,17 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                                       .id
                                                                       .toString(),
                                                                   status: AppConstants
-                                                                      .CANCELED,
+                                                                      .RETURNED,
                                                                   token: Get.find<
                                                                           AuthController>()
                                                                       .getUserToken(),
-                                                                  cancelReason:
-                                                                      cancelController
+                                                                  returned_reason: returnReasonController
                                                                           .text),
                                                               _callBack,
                                                             );
                                                           } else {
                                                             showCustomSnackBar(
-                                                                'enter_cancellation_reason'
+                                                                'enter_Return_reason'
                                                                     .tr,
                                                                 isError: true);
                                                           }

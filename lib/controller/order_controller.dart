@@ -58,6 +58,9 @@ class OrderController extends GetxController implements GetxService {
 
 
   //start
+    List<String> _defredpickupselectedReasons = [];
+
+
   List<OrderList> _orderList;
   List<OrderList> _pickOrder;
   List<OrderList> _deliverOrder;
@@ -82,6 +85,10 @@ class OrderController extends GetxController implements GetxService {
   OrderListModel _paginationHistoryOrderListModel;
   bool _takePicLoading = false;
   GoogleMapController _mapController;
+
+
+
+  List<String> get defredpickupselectedReasons => _defredpickupselectedReasons;
 
   List<OrderModel> get allOrderList => _allOrderList;
   List<OrderModel> get currentOrderList => _currentOrderList;
@@ -238,6 +245,7 @@ class OrderController extends GetxController implements GetxService {
       print('-------- Order update successfully ${response.body['order_id']} ----------');
     } else {
       callback(false, response.statusText, '-1');
+      
     }
     _isLoading = false;
     update();
@@ -826,6 +834,10 @@ class OrderController extends GetxController implements GetxService {
     });
   }
 
+void handleReasonSelection(String reason) {
+    _defredpickupselectedReasons = [reason];
+    update();
+  }
 
 
 
