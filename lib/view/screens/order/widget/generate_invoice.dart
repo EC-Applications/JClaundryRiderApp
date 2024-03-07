@@ -6,49 +6,39 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import '../../../../data/model/response/laundry_order_details_model.dart';
+import '../../../../data/model/response/order_details_model.dart';
 
 Future<Uint8List> generatePdf(PdfPageFormat format,
-    {@required orderDetailsModel}) async {
+   {@required  LaundryOrderDetails orderDetailsModel}) async {
   final pdf = pw.Document();
 
   final ByteData data = await rootBundle.load("assets/image/logo_name.png");
   final Uint8List bytes = data.buffer.asUint8List();
   final image = pw.MemoryImage(bytes);
 
-  List<Map<String, dynamic>> apiData = [
-    {
-      'name': 'Towels',
-      'services': 'Iron',
-      'qty': 3,
-      'price': 200,
-      'total': 600
-    },
-    {
-      'name': 'Carpet',
-      'services': 'Wash',
-      'qty': 1,
-      'price': 6000,
-      'total': 6000
-    },
-    {
-      'name': 'Winter Coat',
-      'services': 'Wash',
-      'qty': 1,
-      'price': 2200,
-      'total': 2200
-    },
-  ];
+  List<Map<String, dynamic>> apiData = [];
+for (var item in orderDetailsModel.details) {
+  apiData.add({
+    'name': item.laundryItem.name,
+    'services': item.service.name,
+    'qty': item.quantity,
+    'price': item.price,
+    'total': item.price * item.quantity, // You may need to adjust this calculation based on your requirements
+  });
+}
 
-  int overallTotal = 0;
-  int addons = 0;
-  int subtotal = addons + overallTotal;
+  num overallTotal = 0;
+  num addons = 0;
+  num subtotal = addons + overallTotal;
+  num Discount = 0;
 
-  int Discount = 0;
-  int couponDiscount = 0;
-  int vat = 0;
-  int DeliveryFee = 0;
-
-  int MainTotal = subtotal - Discount - couponDiscount + vat + DeliveryFee;
+  num  couponDiscount = orderDetailsModel.discountAmount;
+  num  vat = orderDetailsModel.taxAmount;
+  String DeliveryFee = orderDetailsModel.deliveryCharge;
+  num deliveryFeenew = num.parse(DeliveryFee);
+  
+  num MainTotal = subtotal - couponDiscount + vat + deliveryFeenew;
+   //num MainTotal = subtotal ;
 
   for (var item in apiData) {
     overallTotal += item['total'];
@@ -110,72 +100,19 @@ Future<Uint8List> generatePdf(PdfPageFormat format,
                   pw.SizedBox(height: 1),
                 ],
               ),
-
-            // pw.Table(
-            //   border: pw.TableBorder.all(),
-            //   columnWidths: {
-            //     0: const pw.FixedColumnWidth(80), // Name
-            //     1: const pw.FixedColumnWidth(80), // Services
-            //     2: const pw.FixedColumnWidth(30), // Qty
-            //     3: const pw.FixedColumnWidth(50), // Price
-            //     4: const pw.FixedColumnWidth(70), // Total
-            //   },
-            //   children: [
-            //     pw.TableRow(
-            //       children: [
-            //         pw.Center(
-            //             child:
-            //                 pw.Text('Name', style: pw.TextStyle(fontSize: 8))),
-            //         pw.Center(
-            //             child: pw.Text('Services',
-            //                 style: pw.TextStyle(fontSize: 8))),
-            //         pw.Center(
-            //             child:
-            //                 pw.Text('Qty', style: pw.TextStyle(fontSize: 8))),
-            //         pw.Center(
-            //             child:
-            //                 pw.Text('Price', style: pw.TextStyle(fontSize: 8))),
-            //         pw.Center(
-            //             child:
-            //                 pw.Text('Total', style: pw.TextStyle(fontSize: 8))),
-            //       ],
-            //     ),
-            //     for (var row in apiData)
-            //       pw.TableRow(
-            //         children: [
-            //           pw.Center(
-            //               child: pw.Text(row['name'].toString(),
-            //                   style: pw.TextStyle(fontSize: 8))),
-            //           pw.Center(
-            //               child: pw.Text(row['services'].toString(),
-            //                   style: pw.TextStyle(fontSize: 8))),
-            //           pw.Center(
-            //               child: pw.Text(row['qty'].toString(),
-            //                   style: pw.TextStyle(fontSize: 8))),
-            //           pw.Center(
-            //               child: pw.Text(row['price'].toString(),
-            //                   style: pw.TextStyle(fontSize: 8))),
-            //           pw.Center(
-            //               child: pw.Text('Rs ${row['total']}',
-            //                   style: pw.TextStyle(fontSize: 8))),
-            //         ],
-            //       ),
-            //   ],
-            // ),
-            // pw.Divider(),
             pw.SizedBox(height: 3),
             pw.Text('Items Total : RS $overallTotal',
                 style: pw.TextStyle(fontSize: 8,)),
             pw.Text('Addon Cost: RS $addons', style: pw.TextStyle(fontSize: 8)),
             pw.Text('SubTotal : RS ${addons + overallTotal}',
                 style: pw.TextStyle(fontSize: 8)),
-            pw.Text('Discount: RS $Discount', style: pw.TextStyle(fontSize: 8)),
+            // pw.Text('Discount: RS $Discount', style: pw.TextStyle(fontSize: 8)),
             pw.Text('Coupon Discount: RS $couponDiscount',
                 style: pw.TextStyle(fontSize: 8)),
             pw.Text('VAT/TAX: RS $vat', style: pw.TextStyle(fontSize: 8)),
             pw.Text('Delivery Fee: RS $DeliveryFee',
                 style: pw.TextStyle(fontSize: 8)),
-            pw.Text('Total: RS $MainTotal', style: pw.TextStyle(fontSize: 8)),
+            pw.Text('Total: RS ${addons + overallTotal - couponDiscount + vat + deliveryFeenew}', style: pw.TextStyle(fontSize: 8)),
             pw.Divider(),
             pw.SizedBox(height: 10),
             pw.Center(

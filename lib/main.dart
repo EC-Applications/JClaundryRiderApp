@@ -14,6 +14,7 @@ import 'package:efood_multivendor_driver/view/screens/home/widget/custom_navigat
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -39,6 +40,11 @@ Future<void> main() async {
     }
   }catch(e) {}
 
+     SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+
   runApp(MyApp(languages: _languages));
 }
 
@@ -50,7 +56,7 @@ class MyApp extends StatelessWidget {
     Get.find<SplashController>().getConfigData().then((bool isSuccess) async {
       if (isSuccess) {
         if (Get.find<AuthController>().isLoggedIn()) {
-          Get.find<AuthController>().updateToken();
+           Get.find<AuthController>().updateToken();
         }
       }
     });
@@ -87,6 +93,7 @@ class MyApp extends StatelessWidget {
     });
   }
 }
+
 
 class MyHttpOverrides extends HttpOverrides {
   @override

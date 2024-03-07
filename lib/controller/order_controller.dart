@@ -27,6 +27,10 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
+
+import '../view/screens/order/widget/generate_invoice.dart';
 
 class OrderController extends GetxController implements GetxService {
   final OrderRepo orderRepo;
@@ -841,13 +845,21 @@ void handleReasonSelection(String reason) {
 
 
 
-
-
-
-
-
-
-
-
-
+void printinoivce(){
+   Printing.layoutPdf( 
+                  format: PdfPageFormat.roll57,
+                  onLayout: (PdfPageFormat format) async {
+                  // Generate your PDF here
+                  final pdf = await generatePdf(PdfPageFormat.roll57,orderDetailsModel: laundryOrderDetailsModel);
+                  return pdf;
+                });
+                print("success");
+              }
 }
+
+
+
+
+
+
+

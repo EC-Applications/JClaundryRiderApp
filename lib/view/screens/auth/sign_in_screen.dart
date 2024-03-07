@@ -94,7 +94,7 @@ class SignInScreen extends StatelessWidget {
                     initialSelection: _countryDialCode != null ? _countryDialCode : Get.find<LocalizationController>().locale.countryCode,
                     favorite: [_countryDialCode],
                     enabled: false,
-                    showDropDownButton: true,
+                    showDropDownButton: false,
                     padding: EdgeInsets.zero,
                     showFlagMain: true,
                     dialogBackgroundColor: Theme.of(context).cardColor,

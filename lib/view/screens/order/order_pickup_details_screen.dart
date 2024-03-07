@@ -538,6 +538,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                   'you_want_to_pickup_this_order'
                                                       .tr,
                                               onYesPressed: () async {
+
                                                 Navigator.pop(context);
                                                 await orderController
                                                     .updateOrderStatus(
@@ -559,25 +560,11 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                 orderController
                                                     .setMarkAsPickedValue(true);
                                                 setState(() {});
-                                              }));
-                                        }
+                                                await orderController.printinoivce();
 
-                                        // if(orderController.isEdited) {
-                                        //   orderController.setEditedValue(false);
-                                        //   orderController.setOrderUpdatedValue(true);
-                                        //
-                                        //
-                                        // }else{
-                                        //   orderController.updateOrderStatus(
-                                        //     UpdateStatusBody(
-                                        //         orderId: orderController.orderListModel.id,
-                                        //         status: AppConstants.PROCESSING,
-                                        //         token: Get.find<AuthController>().getUserToken()
-                                        //     ),
-                                        //     _callBack,
-                                        //   );
-                                        //   orderController.setMarkAsPickedValue(true);
-                                        // }
+                                              }));
+                                    
+                                        }
                                       },
                                     )
                                   : SizedBox(),
@@ -589,12 +576,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                     )
                                   : SizedBox(),
 
-                              //take picture button
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  (orderController.laundryOrderDetailsModel
+                        (orderController.laundryOrderDetailsModel
                                                   .orderStatus ==
                                               AppConstants.OUT_FOR_PICKUP ||
                                           orderController
@@ -604,98 +586,159 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                       ? !orderController.isEdited
                                           ? orderController.takePicLoading
                                               ? const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
+                                                  child:CircularProgressIndicator(),
                                                 )
-                                              : CustomButtonSec(
-                                                  bgColor: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      .color,
-                                                  btntext: 'take_picture'.tr,
-                                                  fontColor: Theme.of(context)
-                                                      .cardColor,
-                                                  bordercolor: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      .color,
-                                                  callback: () async {
-                                                    await orderController
-                                                        .captureImage();
-                                                    await orderController
-                                                        .uploadPicture(
-                                                            orderController
-                                                                .laundryOrderDetailsModel
-                                                                .id,
-                                                            authController
-                                                                .getUserToken());
-                                                  },
-                                                )
+                                              : SizedBox(
+                                                width: MediaQuery.of(context).size.width,
+                                                child: CustomButtonSec(
+                                                  
+                                                    bgColor: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge
+                                                        .color,
+                                                    btntext: 'take_picture'.tr,
+                                                    fontColor: Theme.of(context)
+                                                        .cardColor,
+                                                    bordercolor: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyLarge
+                                                        .color,
+                                                    callback: () async {
+                                                      await orderController
+                                                          .captureImage();
+                                                      await orderController
+                                                          .uploadPicture(
+                                                              orderController
+                                                                  .laundryOrderDetailsModel
+                                                                  .id,
+                                                              authController
+                                                                  .getUserToken());
+                                                    },
+                                                  ),
+                                              )
                                           : SizedBox()
-                                      : SizedBox(),
-                                  (orderController.laundryOrderDetailsModel
-                                                  .orderStatus ==
-                                              AppConstants.OUT_FOR_PICKUP ||
-                                          orderController
-                                                  .laundryOrderDetailsModel
-                                                  .orderStatus ==
-                                              AppConstants.OUT_FOR_DELIVERY)
-                                      ? !orderController.isEdited
-                                          ? orderController.takePicLoading
-                                              ? const Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                )
-                                              : CustomButtonSec(
-                                                  bgColor: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      .color,
-                                                  btntext: 'Print Invoice'.tr,
-                                                  fontColor: Theme.of(context)
-                                                      .cardColor,
-                                                  bordercolor: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      .color,
-                                                  callback:
-                                                   () async {
-                await Printing.layoutPdf( 
-                  format: PdfPageFormat.roll57,
-                  onLayout: (PdfPageFormat format) async {
-                  // Generate your PDF here
-                  final pdf = await generatePdf(PdfPageFormat.roll57,orderDetailsModel: orderController.laundryOrderDetailsModel);
-                  return pdf;
-                });
-                print("success");
-              },
-//                               () async {
-//   await Printing.layoutPdf(onLayout: (PdfPageFormat format) async {
-//     // Choose the desired paper size for photos, for example, letter size (8.5 x 11 inches)
-//     final PdfPageFormat photoFormat = PdfPageFormat(3.5 * PdfPageFormat.inch,
-//         6 * PdfPageFormat.inch, marginAll: 0);
 
-//     // Generate your PDF using the selected format
-//     final pdf = await generatePdf(photoFormat, orderDetailsModel: orderController.laundryOrderDetailsModel);
-//     return pdf;
-//   });
-//   print("success");
-// },
-                   )
-                                          : SizedBox()
                                       : SizedBox(),
-                                ],
-                              ),
-                              (orderController.laundryOrderDetailsModel
-                                              .orderStatus ==
-                                          AppConstants.OUT_FOR_PICKUP ||
-                                      orderController.laundryOrderDetailsModel
-                                              .orderStatus ==
-                                          AppConstants.OUT_FOR_DELIVERY)
+                                       (orderController.laundryOrderDetailsModel
+                                          .orderStatus ==
+                                      AppConstants.OUT_FOR_PICKUP ||
+                                          orderController
+                                                  .laundryOrderDetailsModel
+                                                  .orderStatus ==
+                                              AppConstants.OUT_FOR_DELIVERY)
                                   ? SizedBox(
-                                      height: Dimensions.PADDING_SIZE_LARGE,
+                                      height: Dimensions.PADDING_SIZE_DEFAULT,
                                     )
                                   : SizedBox(),
+                              //take picture button
+//                               Row(
+//                                 mainAxisAlignment:
+//                                     MainAxisAlignment.spaceBetween,
+//                                 children: [
+//                                   (orderController.laundryOrderDetailsModel
+//                                                   .orderStatus ==
+//                                               AppConstants.OUT_FOR_PICKUP ||
+//                                           orderController
+//                                                   .laundryOrderDetailsModel
+//                                                   .orderStatus ==
+//                                               AppConstants.OUT_FOR_DELIVERY)
+//                                       ? !orderController.isEdited
+//                                           ? orderController.takePicLoading
+//                                               ? const Center(
+//                                                   child:
+//                                                       CircularProgressIndicator(),
+//                                                 )
+//                                               : CustomButtonSec(
+//                                                   bgColor: Theme.of(context)
+//                                                       .textTheme
+//                                                       .bodyLarge
+//                                                       .color,
+//                                                   btntext: 'take_picture'.tr,
+//                                                   fontColor: Theme.of(context)
+//                                                       .cardColor,
+//                                                   bordercolor: Theme.of(context)
+//                                                       .textTheme
+//                                                       .bodyLarge
+//                                                       .color,
+//                                                   callback: () async {
+//                                                     await orderController
+//                                                         .captureImage();
+//                                                     await orderController
+//                                                         .uploadPicture(
+//                                                             orderController
+//                                                                 .laundryOrderDetailsModel
+//                                                                 .id,
+//                                                             authController
+//                                                                 .getUserToken());
+//                                                   },
+//                                                 )
+//                                           : SizedBox()
+//                                       : SizedBox(),
+//                                   (orderController.laundryOrderDetailsModel
+//                                                   .orderStatus ==
+//                                               AppConstants.OUT_FOR_PICKUP ||
+//                                           orderController
+//                                                   .laundryOrderDetailsModel
+//                                                   .orderStatus ==
+//                                               AppConstants.OUT_FOR_DELIVERY)
+//                                       ? !orderController.isEdited
+//                                           ? orderController.takePicLoading
+//                                               ? const Center(
+//                                                   child:
+//                                                       CircularProgressIndicator(),
+//                                                 )
+//                                               : CustomButtonSec(
+//                                                   bgColor: Theme.of(context)
+//                                                       .textTheme
+//                                                       .bodyLarge
+//                                                       .color,
+//                                                   btntext: 'Print Invoice'.tr,
+//                                                   fontColor: Theme.of(context)
+//                                                       .cardColor,
+//                                                   bordercolor: Theme.of(context)
+//                                                       .textTheme
+//                                                       .bodyLarge
+//                                                       .color,
+//                                                   callback:
+//                                                    () async {
+//                                                     await orderController.printinoivce();
+//                 // await Printing.layoutPdf( 
+//                 //   format: PdfPageFormat.roll57,
+//                 //   onLayout: (PdfPageFormat format) async {
+//                 //   // Generate your PDF here
+//                 //   final pdf = await generatePdf(PdfPageFormat.roll57,orderDetailsModel: orderController.laundryOrderDetailsModel);
+//                 //   return pdf;
+//                 // });
+//                 print("success");
+//               },
+// //                               () async {
+// //   await Printing.layoutPdf(onLayout: (PdfPageFormat format) async {
+// //     // Choose the desired paper size for photos, for example, letter size (8.5 x 11 inches)
+// //     final PdfPageFormat photoFormat = PdfPageFormat(3.5 * PdfPageFormat.inch,
+// //         6 * PdfPageFormat.inch, marginAll: 0);
+
+// //     // Generate your PDF using the selected format
+// //     final pdf = await generatePdf(photoFormat, orderDetailsModel: orderController.laundryOrderDetailsModel);
+// //     return pdf;
+// //   });
+// //   print("success");
+// // },
+//                    )
+//                                           : SizedBox()
+//                                       : SizedBox(),
+//                                 ],
+//                               ),
+                              
+//                               (orderController.laundryOrderDetailsModel
+//                                               .orderStatus ==
+//                                           AppConstants.OUT_FOR_PICKUP ||
+//                                       orderController.laundryOrderDetailsModel
+//                                               .orderStatus ==
+//                                           AppConstants.OUT_FOR_DELIVERY)
+//                                   ? SizedBox(
+//                                       height: Dimensions.PADDING_SIZE_LARGE,
+//                                     )
+//                                   : SizedBox(),
 
 // -------------------------------------------
                               Row(
@@ -1264,6 +1307,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
 
                                           setState(() {});
                                         } else {
+                                          await orderController.printinoivce();
                                           Get.bottomSheet(
                                             VerifyDeliverySheet(
                                               cod: true,
