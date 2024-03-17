@@ -6,8 +6,11 @@ class AppConstants {
   static const String APP_NAME = 'JabChaho Delivery';
   static const double APP_VERSION = 5.2;
 
-static const String BASE_URL = 'https://portal.apps-demo.com';
+//static const String BASE_URL = 'https://portal.apps-demo.com';
  //static const String BASE_URL = 'http://175.107.222.99:403';
+ static const String BASE_URL = 'http://192.168.1.43:8000';
+
+
 
   static const String CONFIG_URI = '/api/v1/config';
   static const String FORGET_PASSWORD_URI = '/api/v1/auth/delivery-man/forgot-password';
