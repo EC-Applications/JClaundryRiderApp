@@ -1,7 +1,6 @@
 import 'package:efood_multivendor_driver/controller/laundry_cart_controller.dart';
 import 'package:efood_multivendor_driver/controller/order_controller.dart';
 import 'package:efood_multivendor_driver/util/dimensions.dart';
-import 'package:efood_multivendor_driver/util/images.dart';
 import 'package:efood_multivendor_driver/util/styles.dart';
 import 'package:efood_multivendor_driver/view/screens/order/widget/laundry_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -43,16 +42,16 @@ class LaundryItemView extends StatelessWidget {
                       ),
                     ),
 
-                    InkWell(
-                      onTap: () {
-                        orderController.setEditedValue(true);
-                      },
-                      child: !orderController.isEdited ? Image.asset(
-                        Images.edit,
-                        height: 30,
-                        width: 30,
-                      ) : SizedBox(),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     orderController.setEditedValue(true);
+                    //   },
+                    //   child: !orderController.isEdited ? Image.asset(
+                    //     Images.edit,
+                    //     height: 30,
+                    //     width: 30,
+                    //   ) : SizedBox(),
+                    // ),
                   ],
                 ),
               ),

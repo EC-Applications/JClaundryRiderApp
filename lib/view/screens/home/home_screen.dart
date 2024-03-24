@@ -9,7 +9,6 @@ import 'package:efood_multivendor_driver/controller/profile_controller.dart';
 import 'package:efood_multivendor_driver/controller/splash_controller.dart';
 import 'package:efood_multivendor_driver/data/model/response/order_list_model.dart';
 import 'package:efood_multivendor_driver/helper/route_helper.dart';
-import 'package:efood_multivendor_driver/util/app_constants.dart';
 import 'package:efood_multivendor_driver/util/dimensions.dart';
 import 'package:efood_multivendor_driver/util/images.dart';
 import 'package:efood_multivendor_driver/util/styles.dart';
@@ -17,8 +16,6 @@ import 'package:efood_multivendor_driver/view/base/no_data_screen.dart';
 import 'package:efood_multivendor_driver/view/base/order_item_view.dart';
 import 'package:efood_multivendor_driver/view/base/order_shimmer.dart';
 import 'package:efood_multivendor_driver/view/base/paginated_list_view.dart';
-import 'package:efood_multivendor_driver/view/screens/home/widget/appbar_title.dart';
-import 'package:efood_multivendor_driver/view/screens/home/widget/custom_dotted_line.dart';
 import 'package:efood_multivendor_driver/view/screens/home/widget/custom_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -69,14 +66,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     pinned: true,
                     delegate: _CustomSliverAppBarDelegate(
                         // maxHeight: 245,
-                        maxHeight: 225,
+                        maxHeight: 200,
                         child: Column(
                           children: [
                             Container(
                                 padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_LARGE),
                                 alignment: Alignment.center,
                                 // height: 225,
-                                height: 215,
+                                height: 150,
                                 color: Theme.of(context).textTheme.bodyLarge.color,
                                 child: Column(
                                   children: [
@@ -167,54 +164,59 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ],
                                     ),
 
-                                    SizedBox(height: Dimensions.PADDING_SIZE_LARGE,),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT, vertical: Dimensions.PADDING_SIZE_SMALL),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                          color: Theme.of(context).cardColor,
-                                          borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT)
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
+                                    SizedBox(height: Dimensions.PADDING_SIZE_SMALL,),
+                                    // Container(
+                                    //   padding: EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_DEFAULT, vertical: Dimensions.PADDING_SIZE_SMALL),
+                                    //   alignment: Alignment.center,
+                                    //   decoration: BoxDecoration(
+                                    //       color: Theme.of(context).cardColor,
+                                    //       borderRadius: BorderRadius.circular(Dimensions.RADIUS_DEFAULT)
+                                    //   ),
+                                    //   child: 
+                                    //   // Row(
+                                    //   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    //   //   crossAxisAlignment: CrossAxisAlignment.center,
+                                    //   //   children: [
 
-                                          AppbarTitle(
-                                            onTap: () {
-                                              orderController.setSelectedOrderIndex(1);
-                                              orderController.setFilterValue(AppConstants.pickedUp);
-                                              Get.toNamed(RouteHelper.getOrderRoute(fromNav: false));
-                                              Get.find<OrderController>().getOrderHistory(AppConstants.pickedUp, 1);
-                                            },
-                                            title: 'collected',
-                                            count: profileController.deliveryManProfileModel != null ? '${profileController.deliveryManProfileModel.collectedOrdersCount}' : '0',
-                                          ),
-                                          CustomDottedLine(),
+                                    //   //     // AppbarTitle(
+                                    //   //     //   onTap: () {
+                                    //   //     //     orderController.setSelectedOrderIndex(1);
+                                    //   //     //     orderController.setFilterValue(AppConstants.pickedUp);
+                                    //   //     //     Get.toNamed(RouteHelper.getOrderRoute(fromNav: false));
+                                    //   //     //     Get.find<OrderController>().getOrderHistory(AppConstants.pickedUp, 1);
+                                    //   //     //   },
+                                    //   //     //   title: 'collected',
+                                    //   //     //   count: profileController.deliveryManProfileModel != null ? '${profileController.deliveryManProfileModel.collectedOrdersCount}' : '0',
+                                    //   //     // ),
+                                        
+                                        
+                                    //   //     CustomDottedLine(),
 
-                                          AppbarTitle(
-                                            onTap: () {
-                                              orderController.setSelectedOrderIndex(1);
-                                              orderController.setFilterValue(AppConstants.delivered);
-                                              Get.toNamed(RouteHelper.getOrderRoute(fromNav: false));
-                                              Get.find<OrderController>().getOrderHistory(AppConstants.delivered, 1);
-                                            },
-                                            title: 'delivered',
-                                            count: profileController.deliveryManProfileModel != null ? '${profileController.deliveryManProfileModel.deliveredOrdersCount}' : '0',
-                                          ),
+                                    //   //     // AppbarTitle(
+                                    //   //     //   onTap: () {
+                                    //   //     //     orderController.setSelectedOrderIndex(1);
+                                    //   //     //     orderController.setFilterValue(AppConstants.delivered);
+                                    //   //     //     Get.toNamed(RouteHelper.getOrderRoute(fromNav: false));
+                                    //   //     //     Get.find<OrderController>().getOrderHistory(AppConstants.delivered, 1);
+                                    //   //     //   },
+                                    //   //     //   title: 'delivered',
+                                    //   //     //   count: profileController.deliveryManProfileModel != null ? '${profileController.deliveryManProfileModel.deliveredOrdersCount}' : '0',
+                                    //   //     // ),
 
-                                          CustomDottedLine(),
-                                          AppbarTitle(
-                                            onTap: () {
-                                              orderController.setSelectedOrderIndex(0);
-                                              Get.toNamed(RouteHelper.getOrderRoute(fromNav: false));
-                                            },
-                                            title: 'inprogress',
-                                            count: profileController.deliveryManProfileModel != null ? '${profileController.deliveryManProfileModel.beforeDeliveredOrdersCount + profileController.deliveryManProfileModel.beforePickedOrdersCount}' : '0',
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    //   //     CustomDottedLine(),
+                                    //   //     // AppbarTitle(
+                                    //   //     //   onTap: () {
+                                    //   //     //     orderController.setSelectedOrderIndex(0);
+                                    //   //     //     Get.toNamed(RouteHelper.getOrderRoute(fromNav: false));
+                                    //   //     //   },
+                                    //   //     //   title: 'inprogress',
+                                    //   //     //   count: profileController.deliveryManProfileModel != null ? '${profileController.deliveryManProfileModel.beforeDeliveredOrdersCount + profileController.deliveryManProfileModel.beforePickedOrdersCount}' : '0',
+                                    //   //     // ),
+                                        
+                                        
+                                    //   //   ],
+                                    //   // ),
+                                    // ),
                                   ],
                                 )
                             ),
@@ -224,12 +226,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   //track order
-                  (orderController.outForPickup != null || orderController.outForDelivery != null ) ? (orderController.outForPickup.length > 1 || orderController.outForDelivery.length > 1 ) ? SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
-                      child: OutlinedButton(onPressed: () => Get.toNamed(RouteHelper.getTrackPathRoute()), child: Text('track_path'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE, color: Theme.of(context).primaryColor))),
-                    ),
-                  ) : SliverToBoxAdapter(child: SizedBox(),) : SliverToBoxAdapter(child: SizedBox(),),
+                  // (orderController.outForPickup != null || orderController.outForDelivery != null ) ? (orderController.outForPickup.length > 1 || orderController.outForDelivery.length > 1 ) ? SliverToBoxAdapter(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_DEFAULT),
+                  //     child: OutlinedButton(onPressed: () => Get.toNamed(RouteHelper.getTrackPathRoute()), child: Text('track_path'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE, color: Theme.of(context).primaryColor))),
+                  //   ),
+                  // ) : SliverToBoxAdapter(child: SizedBox(),) : SliverToBoxAdapter(child: SizedBox(),),
 
                   //TabBar
                   SliverPersistentHeader(
