@@ -20,7 +20,6 @@ import 'package:get/get.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'controller/auth_controller.dart';
 import 'helper/get_di.dart' as di;
-  
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
