@@ -9,6 +9,7 @@ import 'package:efood_multivendor_driver/controller/profile_controller.dart';
 import 'package:efood_multivendor_driver/controller/language_controller.dart';
 import 'package:efood_multivendor_driver/controller/localization_controller.dart';
 import 'package:efood_multivendor_driver/controller/order_controller.dart';
+import 'package:efood_multivendor_driver/controller/rider_wallet_controller.dart';
 import 'package:efood_multivendor_driver/controller/splash_controller.dart';
 import 'package:efood_multivendor_driver/controller/theme_controller.dart';
 import 'package:efood_multivendor_driver/data/repository/auth_repo.dart';
@@ -18,6 +19,7 @@ import 'package:efood_multivendor_driver/data/repository/laundry_service_list_re
 import 'package:efood_multivendor_driver/data/repository/laundry_service_repo.dart';
 import 'package:efood_multivendor_driver/data/repository/order_repo.dart';
 import 'package:efood_multivendor_driver/data/repository/profile_repo.dart';
+import 'package:efood_multivendor_driver/data/repository/rider_repo.dart';
 import 'package:efood_multivendor_driver/data/repository/splash_repo.dart';
 import 'package:efood_multivendor_driver/data/api/api_client.dart';
 import 'package:efood_multivendor_driver/util/app_constants.dart';
@@ -41,6 +43,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => LaundryServiceRepo(apiClient: Get.find()));
   Get.lazyPut(() => LaundryServiceListRepo(apiClient: Get.find()));
   Get.lazyPut(() => LaundryNotificationRepo(sharedPreferences: Get.find(), apiClient: Get.find()));
+  Get.lazyPut(() => RiderRepo(apiClient: Get.find(),sharedPreferences: Get.find()));
 
   // Controller
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
@@ -54,6 +57,7 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => LaundryServiceController(laundryServiceRepo: Get.find()));
   Get.lazyPut(() => LaundryServiceListController(laundryServiceListRepo: Get.find()));
   Get.lazyPut(() => LaundryNotificationController(notificationRepo: Get.find()));
+  Get.lazyPut(() => RiderWalletController(riderRepo: Get.find()));
 
   // Retrieving localized data
   Map<String, Map<String, String>> _languages = Map();

@@ -18,6 +18,7 @@ class AppConstants {
   static const String RESET_PASSWORD_URI = '/api/v1/auth/delivery-man/reset-password';
   static const String LOGIN_URI = '/api/auth/laundry/delivery-man/login';
   static const String TOKEN_URI = '/api/v1/delivery-man/update-fcm-token';
+  static const String RIDER_WALLET_URI = '/api/laundryrider/wallet?token=';
   static const String CURRENT_ORDERS_URI = '/api/v1/delivery-man/current-orders?token=';
   static const String ORDER_URI = '/api/delivery-man/laundry/order/running-orders-list';
   static const String LATEST_ORDERS_URI = '/api/v1/delivery-man/latest-orders?token=';
