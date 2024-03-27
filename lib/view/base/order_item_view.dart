@@ -40,7 +40,7 @@ class OrderItemView extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.red,
               ),
-              child: Center(child: Text(orderList.deferredAt == "out_for_delivery" ? "D" : "",
+              child: Center(child: Text(orderList.deferredAt == "out_for_delivery" ? "D" : "P",
               style:  TextStyle(
                 color: Colors.white,
                 fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE
@@ -176,7 +176,7 @@ class OrderItemView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
-                    
+
           //if needed than warp with expanded
                Row(
                           children: [

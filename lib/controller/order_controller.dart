@@ -237,6 +237,7 @@ class OrderController extends GetxController implements GetxService {
          if(order.orderStatus == AppConstants.DEFERRED) {
           if(order.deferredAt == "out_for_pickup"){
               _pickUpOrderList.add(order);
+                _myOrdersPickUpList.add(order);
           }
           if(order.deferredAt == "out_for_delivery"){
               _deliveryOrderList.add(order);
@@ -789,6 +790,7 @@ class OrderController extends GetxController implements GetxService {
     if(_takePicture != null) {
       _multiParts.add(MultipartBody('picture', _takePicture));
     }
+    
 
     Response response = await orderRepo.uploadPicture(_fields, _multiParts);
     _takePicLoading = false;
@@ -804,6 +806,7 @@ class OrderController extends GetxController implements GetxService {
     update();
     return _isSuccess;
   }
+
 
   Future<void> captureImage() async {
     _takePicture = await ImagePicker().pickImage(source: ImageSource.camera);
