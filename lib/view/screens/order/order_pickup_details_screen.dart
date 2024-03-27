@@ -51,7 +51,7 @@ class OrderPickupDetailsScreen extends StatefulWidget {
 
 class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
   bool isDelivered = false;
-
+ 
   TextEditingController cancelController = TextEditingController();
     TextEditingController customReasonController = TextEditingController();
     TextEditingController returnReasonController = TextEditingController();
@@ -102,13 +102,15 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                       appBar: CustomAppBar(
                         title: orderController
                                     .laundryOrderDetailsModel.orderStatus ==
-                                AppConstants.OUT_FOR_PICKUP
+                                AppConstants.OUT_FOR_PICKUP || orderController
+                                    .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED && widget.orderList.deferredAt == "out_for_pickup"
                             ? !orderController.isEdited
                                 ? 'order_details'.tr
                                 : 'edit_order_details'.tr
                             : orderController.checkPickUpDeliveryStatus(
                                     orderController
-                                        .laundryOrderDetailsModel.orderStatus)
+                                        .laundryOrderDetailsModel.orderStatus) 
                                 ? 'order_pickup_details'.tr
                                 : 'order_delivery_details'.tr,
                         onBackPressed: () {
@@ -189,6 +191,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                     orderController
                                                         .laundryOrderDetailsModel,
                                                   );
+
                                                   if (orderController
                                                       .checkPickUpDeliveryStatus(
                                                           orderController
@@ -222,7 +225,11 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                           AppConstants.OUT_FOR_DELIVERY ||
                                       orderController.laundryOrderDetailsModel
                                               .orderStatus ==
-                                          AppConstants.READY_FOR_DELIVERY)
+                                          AppConstants.READY_FOR_DELIVERY ||
+                                          orderController .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED && widget.orderList.deferredAt == "out_for_delivery"
+                                          )
+
                                   ? CustomButton(
                                       buttonText: 'call_customer'.tr,
                                       backgroundColor:
@@ -293,7 +300,8 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                               //laundry items
                               (orderController.laundryOrderDetailsModel
                                           .orderStatus ==
-                                      AppConstants.OUT_FOR_PICKUP)
+                                      AppConstants.OUT_FOR_PICKUP || orderController .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED && widget.orderList.deferredAt == "out_for_pickup")
                                   ? Column(
                                       children: [
                                         LaundryItemView(),
@@ -311,6 +319,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                               //   Get.find<LaundryServiceListController>().getServiceItemList(serviceId: Get.find<LaundryServiceController>().serviceList[0].id);
                                               // }
                                               // cartController.updateQuantity(cartController.cartList);
+                                              
                                               Get.toNamed(RouteHelper
                                                   .getAddItemRoute());
                                             },
@@ -485,7 +494,10 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
 
                               (orderController.laundryOrderDetailsModel
                                           .orderStatus ==
-                                      AppConstants.OUT_FOR_PICKUP)
+                                      AppConstants.OUT_FOR_PICKUP 
+                                      || orderController .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED && widget.orderList.deferredAt == "out_for_pickup"
+                                      )
                                   ? SizedBox(
                                       height:
                                           Dimensions.PADDING_SIZE_EXTRA_LARGE,
@@ -496,11 +508,15 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                               //mark as picked button
                               (orderController.laundryOrderDetailsModel
                                           .orderStatus ==
-                                      AppConstants.OUT_FOR_PICKUP)
+                                      AppConstants.OUT_FOR_PICKUP  
+                                      || orderController .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED && widget.orderList.deferredAt == "out_for_pickup"
+                                      )
                                   ? CustomButton(
                                       buttonText: orderController.isEdited
                                           ? 'save_and_update'.tr
                                           : 'mark_as_picked'.tr,
+
                                       backgroundColor:
                                           orderController.markAsPicked
                                               ? Theme.of(context)
@@ -537,6 +553,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                               description:
                                                   'you_want_to_pickup_this_order'
                                                       .tr,
+
                                               onYesPressed: () async {
 
                                                 Navigator.pop(context);
@@ -560,8 +577,6 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                 orderController
                                                     .setMarkAsPickedValue(true);
                                                 setState(() {});
-                                                await orderController.printinoivce();
-
                                               }));
                                     
                                         }
@@ -570,55 +585,59 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                   : SizedBox(),
                               (orderController.laundryOrderDetailsModel
                                           .orderStatus ==
-                                      AppConstants.OUT_FOR_PICKUP)
+                                      AppConstants.OUT_FOR_PICKUP || orderController .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED && widget.orderList.deferredAt == "out_for_pickup")
                                   ? SizedBox(
                                       height: Dimensions.PADDING_SIZE_DEFAULT,
                                     )
                                   : SizedBox(),
 
-                        (orderController.laundryOrderDetailsModel
-                                                  .orderStatus ==
-                                              AppConstants.OUT_FOR_PICKUP ||
-                                          orderController
-                                                  .laundryOrderDetailsModel
-                                                  .orderStatus ==
-                                              AppConstants.OUT_FOR_DELIVERY)
-                                      ? !orderController.isEdited
-                                          ? orderController.takePicLoading
-                                              ? const Center(
-                                                  child:CircularProgressIndicator(),
-                                                )
-                                              : SizedBox(
-                                                width: MediaQuery.of(context).size.width,
-                                                child: CustomButtonSec(
+                        // (orderController.laundryOrderDetailsModel
+                        //                           .orderStatus ==
+                        //                       AppConstants.OUT_FOR_PICKUP ||
+                        //                   orderController
+                        //                           .laundryOrderDetailsModel
+                        //                           .orderStatus ==
+                        //                       AppConstants.OUT_FOR_DELIVERY 
+                        //                       || orderController .laundryOrderDetailsModel.orderStatus ==
+                        //         AppConstants.DEFERRED 
+                        //                       )
+                        //               ? !orderController.isEdited
+                        //                   ? orderController.takePicLoading
+                        //                       ? const Center(
+                        //                           child:CircularProgressIndicator(),
+                        //                         )
+                        //                       : SizedBox(
+                        //                         width: MediaQuery.of(context).size.width,
+                        //                         child: CustomButtonSec(
                                                   
-                                                    bgColor: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        .color,
-                                                    btntext: 'take_picture'.tr,
-                                                    fontColor: Theme.of(context)
-                                                        .cardColor,
-                                                    bordercolor: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge
-                                                        .color,
-                                                    callback: () async {
-                                                      await orderController
-                                                          .captureImage();
-                                                      await orderController
-                                                          .uploadPicture(
-                                                              orderController
-                                                                  .laundryOrderDetailsModel
-                                                                  .id,
-                                                              authController
-                                                                  .getUserToken());
-                                                    },
-                                                  ),
-                                              )
-                                          : SizedBox()
+                        //                             bgColor: Theme.of(context)
+                        //                                 .textTheme
+                        //                                 .bodyLarge
+                        //                                 .color,
+                        //                             btntext: 'take_picture'.tr,
+                        //                             fontColor: Theme.of(context)
+                        //                                 .cardColor,
+                        //                             bordercolor: Theme.of(context)
+                        //                                 .textTheme
+                        //                                 .bodyLarge
+                        //                                 .color,
+                        //                             callback: () async {
+                        //                               await orderController
+                        //                                   .captureImage();
+                        //                               await orderController
+                        //                                   .uploadPicture(
+                        //                                       orderController
+                        //                                           .laundryOrderDetailsModel
+                        //                                           .id,
+                        //                                       authController
+                        //                                           .getUserToken());
+                        //                             },
+                        //                           ),
+                        //                       )
+                        //                   : SizedBox()
 
-                                      : SizedBox(),
+                        //               : SizedBox(),
                                        (orderController.laundryOrderDetailsModel
                                           .orderStatus ==
                                       AppConstants.OUT_FOR_PICKUP ||
@@ -631,114 +650,123 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                     )
                                   : SizedBox(),
                               //take picture button
-//                               Row(
-//                                 mainAxisAlignment:
-//                                     MainAxisAlignment.spaceBetween,
-//                                 children: [
-//                                   (orderController.laundryOrderDetailsModel
-//                                                   .orderStatus ==
-//                                               AppConstants.OUT_FOR_PICKUP ||
-//                                           orderController
-//                                                   .laundryOrderDetailsModel
-//                                                   .orderStatus ==
-//                                               AppConstants.OUT_FOR_DELIVERY)
-//                                       ? !orderController.isEdited
-//                                           ? orderController.takePicLoading
-//                                               ? const Center(
-//                                                   child:
-//                                                       CircularProgressIndicator(),
-//                                                 )
-//                                               : CustomButtonSec(
-//                                                   bgColor: Theme.of(context)
-//                                                       .textTheme
-//                                                       .bodyLarge
-//                                                       .color,
-//                                                   btntext: 'take_picture'.tr,
-//                                                   fontColor: Theme.of(context)
-//                                                       .cardColor,
-//                                                   bordercolor: Theme.of(context)
-//                                                       .textTheme
-//                                                       .bodyLarge
-//                                                       .color,
-//                                                   callback: () async {
-//                                                     await orderController
-//                                                         .captureImage();
-//                                                     await orderController
-//                                                         .uploadPicture(
-//                                                             orderController
-//                                                                 .laundryOrderDetailsModel
-//                                                                 .id,
-//                                                             authController
-//                                                                 .getUserToken());
-//                                                   },
-//                                                 )
-//                                           : SizedBox()
-//                                       : SizedBox(),
-//                                   (orderController.laundryOrderDetailsModel
-//                                                   .orderStatus ==
-//                                               AppConstants.OUT_FOR_PICKUP ||
-//                                           orderController
-//                                                   .laundryOrderDetailsModel
-//                                                   .orderStatus ==
-//                                               AppConstants.OUT_FOR_DELIVERY)
-//                                       ? !orderController.isEdited
-//                                           ? orderController.takePicLoading
-//                                               ? const Center(
-//                                                   child:
-//                                                       CircularProgressIndicator(),
-//                                                 )
-//                                               : CustomButtonSec(
-//                                                   bgColor: Theme.of(context)
-//                                                       .textTheme
-//                                                       .bodyLarge
-//                                                       .color,
-//                                                   btntext: 'Print Invoice'.tr,
-//                                                   fontColor: Theme.of(context)
-//                                                       .cardColor,
-//                                                   bordercolor: Theme.of(context)
-//                                                       .textTheme
-//                                                       .bodyLarge
-//                                                       .color,
-//                                                   callback:
-//                                                    () async {
-//                                                     await orderController.printinoivce();
-//                 // await Printing.layoutPdf( 
-//                 //   format: PdfPageFormat.roll57,
-//                 //   onLayout: (PdfPageFormat format) async {
-//                 //   // Generate your PDF here
-//                 //   final pdf = await generatePdf(PdfPageFormat.roll57,orderDetailsModel: orderController.laundryOrderDetailsModel);
-//                 //   return pdf;
-//                 // });
-//                 print("success");
-//               },
-// //                               () async {
-// //   await Printing.layoutPdf(onLayout: (PdfPageFormat format) async {
-// //     // Choose the desired paper size for photos, for example, letter size (8.5 x 11 inches)
-// //     final PdfPageFormat photoFormat = PdfPageFormat(3.5 * PdfPageFormat.inch,
-// //         6 * PdfPageFormat.inch, marginAll: 0);
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  (orderController.laundryOrderDetailsModel
+                                                  .orderStatus ==
+                                              AppConstants.OUT_FOR_PICKUP ||
+                                          orderController
+                                                  .laundryOrderDetailsModel
+                                                  .orderStatus ==
+                                              AppConstants.OUT_FOR_DELIVERY
+                                               || orderController .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED 
+                                              )
+                                      ? !orderController.isEdited
+                                          ? orderController.takePicLoading
+                                              ? const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                )
+                                              : CustomButtonSec(
+                                                  bgColor: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      .color,
+                                                  btntext: 'take_picture'.tr,
+                                                  fontColor: Theme.of(context)
+                                                      .cardColor,
+                                                  bordercolor: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      .color,
+                                                  callback: () async {
+                                                    await orderController
+                                                        .captureImage();
+                                                    await orderController
+                                                        .uploadPicture(
+                                                            orderController
+                                                                .laundryOrderDetailsModel
+                                                                .id,
+                                                            authController
+                                                                .getUserToken());
+                                                  },
+                                                )
+                                          : SizedBox()
+                                      : SizedBox(),
+                                  (orderController.laundryOrderDetailsModel
+                                                  .orderStatus ==
+                                              AppConstants.OUT_FOR_PICKUP ||
+                                          orderController
+                                                  .laundryOrderDetailsModel
+                                                  .orderStatus ==
+                                              AppConstants.OUT_FOR_DELIVERY
+                                               || orderController .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED 
+                                              )
+                                      ? !orderController.isEdited
+                                          ? orderController.takePicLoading
+                                              ? const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                )
+                                              : CustomButtonSec(
+                                                  bgColor: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      .color,
+                                                  btntext: 'Print Invoice'.tr,
+                                                  fontColor: Theme.of(context)
+                                                      .cardColor,
+                                                  bordercolor: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyLarge
+                                                      .color,
+                                                  callback:
+                                                   () async {
+                                                    await orderController.printinoivce();
+                await Printing.layoutPdf( 
+                  format: PdfPageFormat.roll57,
+                  onLayout: (PdfPageFormat format) async {
+                  // Generate your PDF here
+                  final pdf = await generatePdf(PdfPageFormat.roll57,orderDetailsModel: orderController.laundryOrderDetailsModel);
+                  return pdf;
+                });
+                print("success");
+              },
+//                               () async {
+//   await Printing.layoutPdf(onLayout: (PdfPageFormat format) async {
+//     // Choose the desired paper size for photos, for example, letter size (8.5 x 11 inches)
+//     final PdfPageFormat photoFormat = PdfPageFormat(3.5 * PdfPageFormat.inch,
+//         6 * PdfPageFormat.inch, marginAll: 0);
 
-// //     // Generate your PDF using the selected format
-// //     final pdf = await generatePdf(photoFormat, orderDetailsModel: orderController.laundryOrderDetailsModel);
-// //     return pdf;
-// //   });
-// //   print("success");
-// // },
-//                    )
-//                                           : SizedBox()
-//                                       : SizedBox(),
-//                                 ],
-//                               ),
+//     // Generate your PDF using the selected format
+//     final pdf = await generatePdf(photoFormat, orderDetailsModel: orderController.laundryOrderDetailsModel);
+//     return pdf;
+//   });
+//   print("success");
+// },
+                   )
+                                          : SizedBox()
+                                      : SizedBox(),
+                                ],
+                              ),
                               
-//                               (orderController.laundryOrderDetailsModel
-//                                               .orderStatus ==
-//                                           AppConstants.OUT_FOR_PICKUP ||
-//                                       orderController.laundryOrderDetailsModel
-//                                               .orderStatus ==
-//                                           AppConstants.OUT_FOR_DELIVERY)
-//                                   ? SizedBox(
-//                                       height: Dimensions.PADDING_SIZE_LARGE,
-//                                     )
-//                                   : SizedBox(),
+                              (orderController.laundryOrderDetailsModel
+                                              .orderStatus ==
+                                          AppConstants.OUT_FOR_PICKUP ||
+                                      orderController.laundryOrderDetailsModel
+                                              .orderStatus ==
+                                          AppConstants.OUT_FOR_DELIVERY ||
+                                          orderController .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED 
+                                          )
+                                  ? SizedBox(
+                                      height: Dimensions.PADDING_SIZE_LARGE,
+                                    )
+                                  : SizedBox(),
 
 // -------------------------------------------
                               Row(
@@ -769,7 +797,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                 left: 8.0,
                 top: 4.0,
               ),
-              child: Text('Please select reason for Delivery deferral'.tr),
+              child: Text('Please select reason for Pickup deferral'.tr),
             ),
           ),
           IconButton(
@@ -781,6 +809,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
           ),
         ],
       ),
+
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -825,6 +854,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                         radius: Dimensions
                                                             .RADIUS_DEFAULT,
                                                         onPressed: () async {
+                                                          
                                                           if (customReasonController
                                                               .text
                                                               .isNotEmpty) {
@@ -993,6 +1023,131 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                       
                                 ],
                               ),
+//=============================================Cancel Pickup witout Defrred at the time of deffred============
+
+                               (orderController.laundryOrderDetailsModel
+                                              .orderStatus ==
+                                         AppConstants.DEFERRED && widget.orderList.deferredAt == "out_for_pickup")
+                                      ? !orderController.isEdited
+                                          ? CustomButtonSec(
+                                              bgColor: Colors.transparent,
+                                              bordercolor: Colors.red,
+                                              btntext: "Cancel Pickup",
+                                              fontColor: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  .color,
+                                              callback: () {
+                                                Get.dialog(AlertDialog(
+                                                  titlePadding: EdgeInsets.zero,
+                                                  title: Row(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Padding(
+                                                        padding: const EdgeInsets
+                                                                .only(
+                                                            left: Dimensions
+                                                                .PADDING_SIZE_DEFAULT,
+                                                            top: Dimensions
+                                                                .PADDING_SIZE_SMALL),
+                                                        child: Text(
+                                                            'cancellation_reason'
+                                                                .tr),
+                                                      )),
+                                                      IconButton(
+                                                          onPressed: () =>
+                                                              Get.back(),
+                                                          icon: Icon(
+                                                            Icons
+                                                                .highlight_remove_sharp,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .disabledColor,
+                                                          )),
+                                                    ],
+                                                  ),
+                                                  content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      TextField(
+                                                        controller:
+                                                            cancelController,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    Dimensions
+                                                                        .RADIUS_SMALL),
+                                                            borderSide: BorderSide(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .disabledColor,
+                                                                width: 1),
+                                                          ),
+                                                          hintText:
+                                                              'enter_cancellation_reason'
+                                                                  .tr,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: Dimensions
+                                                            .PADDING_SIZE_DEFAULT,
+                                                      ),
+                                                      CustomButton(
+                                                        buttonText: 'submit'.tr,
+                                                        backgroundColor:
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                        fontColor:
+                                                            Theme.of(context)
+                                                                .cardColor,
+                                                        radius: Dimensions
+                                                            .RADIUS_DEFAULT,
+                                                        onPressed: () async {
+                                                          if (cancelController
+                                                              .text
+                                                              .isNotEmpty) {
+                                                            Navigator.pop(
+                                                                context);
+                                                            Get.offNamed(RouteHelper
+                                                                .getInitialRoute());
+                                                            await orderController
+                                                                .updateOrderStatus(
+                                                              UpdateStatusBody(
+                                                                  orderId: orderController
+                                                                      .orderListModel
+                                                                      .id
+                                                                      .toString(),
+                                                                  status: AppConstants
+                                                                      .CANCELED,
+                                                                  token: Get.find<
+                                                                          AuthController>()
+                                                                      .getUserToken(),
+                                                                  cancelReason:
+                                                                      cancelController
+                                                                          .text),
+                                                              _callBack,
+                                                            );
+                                                          } else {
+                                                            showCustomSnackBar(
+                                                                'enter_cancellation_reason'
+                                                                    .tr,
+                                                                isError: true);
+                                                          }
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ));
+                                              },
+                                            )
+                                          : SizedBox()
+                                      : SizedBox(),
+
+//=============================================Cancel Pickup witout Defrred at the time of deffred============
 
                               (orderController.laundryOrderDetailsModel
                                           .orderStatus ==
@@ -1253,7 +1408,129 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                       : SizedBox(),
                                 ],
                               ),
+//=================================Return Button when order is deffred at out fo delivery====================
 
+ ( orderController .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED && widget.orderList.deferredAt == "out_for_delivery")
+                                      ? !orderController.isEdited
+                                          ? CustomButtonSec(
+                                              bgColor: Colors.transparent,
+                                              bordercolor: Colors.red,
+                                              btntext: "Return",
+                                              fontColor: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  .color,
+                                              callback: () {
+                                                Get.dialog(AlertDialog(
+                                                  titlePadding: EdgeInsets.zero,
+                                                  title: Row(
+                                                    children: [
+                                                      Expanded(
+                                                          child: Padding(
+                                                        padding: const EdgeInsets
+                                                                .only(
+                                                            left: Dimensions
+                                                                .PADDING_SIZE_DEFAULT,
+                                                            top: Dimensions
+                                                                .PADDING_SIZE_SMALL),
+                                                        child: Text(
+                                                            'Return_reason'
+                                                                .tr),
+                                                      )),
+                                                      IconButton(
+                                                          onPressed: () =>
+                                                              Get.back(),
+                                                          icon: Icon(
+                                                            Icons
+                                                                .highlight_remove_sharp,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .disabledColor,
+                                                          )),
+                                                    ],
+                                                  ),
+                                                  content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      TextField(
+                                                        controller:
+                                                            cancelController,
+                                                        decoration:
+                                                            InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                    Dimensions
+                                                                        .RADIUS_SMALL),
+                                                            borderSide: BorderSide(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .disabledColor,
+                                                                width: 1),
+                                                          ),
+                                                          hintText:
+                                                              'enter_Return_reason'
+                                                                  .tr,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: Dimensions
+                                                            .PADDING_SIZE_DEFAULT,
+                                                      ),
+                                                      CustomButton(
+                                                        buttonText: 'submit'.tr,
+                                                        backgroundColor:
+                                                            Theme.of(context)
+                                                                .primaryColor,
+                                                        fontColor:
+                                                            Theme.of(context)
+                                                                .cardColor,
+                                                        radius: Dimensions
+                                                            .RADIUS_DEFAULT,
+                                                        onPressed: () async {
+                                                          if (cancelController
+                                                              .text
+                                                              .isNotEmpty) {
+                                                            Navigator.pop(
+                                                                context);
+                                                            Get.offNamed(RouteHelper
+                                                                .getInitialRoute());
+                                                            await orderController
+                                                                .updateOrderStatus(
+                                                              UpdateStatusBody(
+                                                                  orderId: orderController
+                                                                      .orderListModel
+                                                                      .id
+                                                                      .toString(),
+                                                                  status: AppConstants
+                                                                      .RETURNED,
+                                                                  token: Get.find<
+                                                                          AuthController>()
+                                                                      .getUserToken(),
+                                                                  returned_reason: returnReasonController
+                                                                          .text),
+                                                              _callBack,
+                                                            );
+                                                          } else {
+                                                            showCustomSnackBar(
+                                                                'enter_Return_reason'
+                                                                    .tr,
+                                                                isError: true);
+                                                          }
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ));
+                                              },
+                                            )
+                                          : SizedBox()
+                                      : SizedBox(),
+//=================================Return Button when order is deffred at out fo delivery====================
+                           
                               //  (orderController.laundryOrderDetailsModel.orderStatus == AppConstants.OUT_FOR_DELIVERY) ? SizedBox() : SizedBox(height: Dimensions.PADDING_SIZE_DEFAULT,),
                               SizedBox(
                                 height: Dimensions.PADDING_SIZE_DEFAULT,
@@ -1264,7 +1541,10 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                           AppConstants.OUT_FOR_DELIVERY ||
                                       orderController.laundryOrderDetailsModel
                                               .orderStatus ==
-                                          AppConstants.READY_FOR_DELIVERY)
+                                          AppConstants.READY_FOR_DELIVERY
+                                          || orderController .laundryOrderDetailsModel.orderStatus ==
+                                AppConstants.DEFERRED && widget.orderList.deferredAt == "out_for_delivery"
+                                          )
                                   ? SliderButton(
                                       label: Text(
                                         (orderController

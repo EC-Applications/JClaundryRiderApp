@@ -16,7 +16,7 @@ class UpdateStatusBody {
     method = json['_method'];
     cancelReason = json['cancellation_reason'];
     deferred_reason =json['deferred_reason'];
-    returned_reason =json['deferred_reason'];
+    returned_reason =json['retruned_reason'];
   }
 
   Map<String, dynamic> toJson() {

@@ -67,8 +67,9 @@ class OrderController extends GetxController implements GetxService {
 
   List<OrderList> _orderList;
   List<OrderList> _pickOrder;
-  List<OrderList> _deliverOrder;
+    List<OrderList> _deliverOrder;
   List<OrderList> _pickUpOrderList;
+  List<OrderList> _pickUpdefferredOrderList;
   List<OrderList> _deliveryOrderList;
   List<OrderList> _pickedOrderList;
   List<OrderList> _myOrdersPickUpList;
@@ -131,6 +132,7 @@ class OrderController extends GetxController implements GetxService {
   List<OrderList> get pickOrder => _pickOrder;
   List<OrderList> get deliverOrder => _deliverOrder;
   List<OrderList> get outForPickup => _outForPickup;
+  List<OrderList> get pickUpdefferredOrderList => _pickUpdefferredOrderList;
   List<OrderList> get outForDelivery => _outForDelivery;
   List<OrderList> get orderHistory => _orderHistory;
   OrderList get orderListModel => _orderListModel;
@@ -209,6 +211,7 @@ class OrderController extends GetxController implements GetxService {
     _myOrdersPickUpList = [];
     _outForPickup = [];
     _outForDelivery = [];
+   _pickUpdefferredOrderList = [];
 
     if(_paginationOrderListModel?.data != null) {
       for(OrderList order in _paginationOrderListModel.data) {
@@ -230,6 +233,15 @@ class OrderController extends GetxController implements GetxService {
         }
         if(order.orderStatus == AppConstants.OUT_FOR_DELIVERY) {
           _outForDelivery.add(order);
+        }
+         if(order.orderStatus == AppConstants.DEFERRED) {
+          if(order.deferredAt == "out_for_pickup"){
+              _pickUpOrderList.add(order);
+          }
+          if(order.deferredAt == "out_for_delivery"){
+              _deliveryOrderList.add(order);
+          }
+         
         }
       }
     }
@@ -498,10 +510,6 @@ class OrderController extends GetxController implements GetxService {
   String getScheduleTime(bool fromDetails, {OrderList orderList, LaundryOrderDetails orderDetailsModel}) {
       return fromDetails ? orderList != null ? orderList.pickupScheduleAt : orderDetailsModel.pickupScheduleAt :  orderList != null ? orderList.deliveryScheduleAt : orderDetailsModel.deliveryScheduleAt;
   }
-
-
-
-
 
 
   void categorizeOrderList(List<OrderList> orderList) {

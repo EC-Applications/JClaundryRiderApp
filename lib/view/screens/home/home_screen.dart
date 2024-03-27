@@ -284,7 +284,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   _orderList != null ? _orderList.length > 0 ? SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
 
-                      return PaginatedListView(
+                      return  
+                       PaginatedListView(
                         scrollController: _scrollController,
                         onPaginate: (int offset) async {
                           await orderController.getOrderList(offset);

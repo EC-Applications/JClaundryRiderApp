@@ -38,6 +38,9 @@ class OrderList {
   int id;
   String deliverymanId;
   String orderStatus;
+  String deferredAt;
+  String deferredReason;
+
   double orderAmount;
   String paymentStatus;
   String paymentMethod;
@@ -72,6 +75,9 @@ class OrderList {
       {this.id,
         this.deliverymanId,
         this.orderStatus,
+           this.deferredAt,
+      this.deferredReason,
+
         this.orderAmount,
         this.paymentStatus,
         this.paymentMethod,
@@ -107,6 +113,8 @@ class OrderList {
     id = json['id'];
     deliverymanId = json['deliveryman_id']?.toString();
     orderStatus = json['order_status'];
+    deferredAt = json['deferred_at'];
+    deferredReason = json['deferred_reason'];
     orderAmount = json['order_amount'] != null
         ? json['order_amount'].toDouble()
         : 0.0;
@@ -158,6 +166,8 @@ class OrderList {
     data['id'] = this.id;
     data['deliveryman_id'] = this.deliverymanId;
     data['order_status'] = this.orderStatus;
+    data['deferred_at'] = this.deferredAt;
+    data['deferred_reason'] = this.deferredReason;
     data['order_amount'] = this.orderAmount;
     data['payment_status'] = this.paymentStatus;
     data['payment_method'] = this.paymentMethod;
