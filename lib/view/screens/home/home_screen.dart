@@ -297,7 +297,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: OrderItemView(
                             orderList: _orderList[index],
                             onTap: () async {
-                              Get.toNamed(RouteHelper.getOrderPickupDetailsRoute(_orderList[index]));
+                             
+                             Get.toNamed(RouteHelper.getOrderPickupDetailsRoute(_orderList[index]));
                             },
                           ),
                         ),

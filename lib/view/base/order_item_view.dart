@@ -168,36 +168,43 @@ class OrderItemView extends StatelessWidget {
                       width: 16,
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: orderList.laundryDeliveryType != null && orderList.laundryDeliveryType.id != 1 ? Colors.red : Colors.blue
+                        //  color: orderList.laundryDeliveryType != null && orderList.laundryDeliveryType.id != 1 ? Colors.red : Colors.blue
+                      color: orderList.laundryDeliveryType != null && orderList.laundryDeliveryType.id != 1 
+  ? (orderList.laundryDeliveryType.id == 2 ? Colors.red : Colors.green)
+  : Colors.blue
+
                       ),
                     ),
                     SizedBox(width: Dimensions.PADDING_SIZE_DEFAULT,),
-          
-                    Expanded(
-                      child: RichText(text: TextSpan(
+                    
+          //if needed than warp with expanded
+               Row(
                           children: [
-                            TextSpan(
-                              text: '${'type'.tr}:',
+                            Text(
+                              '${'type'.tr}:',
                               style: robotoRegular.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_LARGE,
                                 color: Theme.of(context).disabledColor,
                               ),
                             ),
-                            WidgetSpan(child: SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL,)),
+                           SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL,),
+                          
           
-                            TextSpan(
-                              text: '${orderList.laundryDeliveryType.title != null ? orderList.laundryDeliveryType.title : ''}',
+                            Text(
+                               '${orderList.laundryDeliveryType.title != null ? orderList.laundryDeliveryType.title : ''}',
                               style: robotoRegular.copyWith(
                                 fontSize: Dimensions.FONT_SIZE_LARGE,
-                                color:orderList.laundryDeliveryType != null && orderList.laundryDeliveryType.id != 1 ? Colors.red : Colors.blue,
+                            //    color:orderList.laundryDeliveryType != null && orderList.laundryDeliveryType.id != 1 ? Colors.red : Colors.blue,
+                              color: orderList.laundryDeliveryType != null && orderList.laundryDeliveryType.id != 1 
+  ? (orderList.laundryDeliveryType.id == 2 ? Colors.red : Colors.green)
+  : Colors.blue
+
                               ),
                             ),
                           ]
                       ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
+                     
+                    
           
                     Spacer(),
           
