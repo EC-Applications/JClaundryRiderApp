@@ -56,9 +56,9 @@ class ChooseLanguageScreen extends StatelessWidget {
                       ),
                       SizedBox(height: Dimensions.PADDING_SIZE_LARGE),
 
-                      Text('you_can_change_language'.tr, style: robotoRegular.copyWith(
-                        fontSize: Dimensions.FONT_SIZE_SMALL, color: Theme.of(context).disabledColor,
-                      )),
+                      // Text('you_can_change_language'.tr, style: robotoRegular.copyWith(
+                      //   fontSize: Dimensions.FONT_SIZE_SMALL, color: Theme.of(context).disabledColor,
+                      // )),
 
                     ]),
                   )),
