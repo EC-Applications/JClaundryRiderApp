@@ -10,6 +10,8 @@ class LaundryServiceListController extends GetxController implements GetxService
   LaundryServiceListController({@required this.laundryServiceListRepo});
 
   List<Data> _serviceItemList;
+  Campaign _campaign;
+  Campaign get campaign => _campaign;
   int _serviceId = 0;
   bool _isLoading = false;
 
@@ -23,9 +25,11 @@ class LaundryServiceListController extends GetxController implements GetxService
     if(response.statusCode == 200) {
       _serviceItemList = [];
       LaundryServiceItemModel _laundryServiceItemModel = LaundryServiceItemModel.fromJson(response.body);
-      _laundryServiceItemModel.data.forEach((data) {
-        _serviceItemList.add(data);
-      });
+      //_serviceItemList.add(Data.fromJson(response.body));
+        _campaign = _laundryServiceItemModel.campaign;
+       _laundryServiceItemModel.data.forEach((data) {
+         _serviceItemList.add(data);
+       });
     } else {
       ApiChecker.checkApi(response);
     }

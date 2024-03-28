@@ -1,6 +1,8 @@
 
+import '../response/laundry_order_details_model.dart';
+
 class LaundryPlaceOrderBody {
-  String orderId;
+  int orderId;
   String token;
   List<Cart> cart;
 
@@ -17,7 +19,6 @@ class LaundryPlaceOrderBody {
 
     orderId = json['order_id'];
     token = json['token'];
-
     if (json['cart'] != null) {
       cart = <Cart>[];
       json['cart'].forEach((v) {
@@ -108,8 +109,9 @@ class LaundryItemList {
   double price;
   int detailsId;
   String name;
+  List<Addons> addons;
 
-  LaundryItemList({this.laundryItemId, this.quantity, this.price, this.detailsId, this.name});
+  LaundryItemList({this.laundryItemId, this.quantity, this.price, this.detailsId, this.name,this.addons});
 
   LaundryItemList.fromJson(Map<String, dynamic> json) {
     laundryItemId = json['laundry_item_id'];
@@ -117,6 +119,12 @@ class LaundryItemList {
     price = json['price'].toDouble();
     detailsId = json['details_id'];
     name = json['name'];
+    if (json['addons'] != null) {
+      addons = <Addons>[];
+      json['addons'].forEach((v) {
+        addons.add(new Addons.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -126,6 +134,9 @@ class LaundryItemList {
     data['price'] = this.price;
     data['details_id'] = this.detailsId;
     data['name'] = this.name;
+     if (this.addons != null) {
+      data['addons'] = this.addons.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

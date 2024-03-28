@@ -1,7 +1,7 @@
 import 'dart:collection';
+import 'dart:developer';
 import 'dart:ui';
 
-import 'package:efood_multivendor_driver/controller/laundry_cart_controller.dart';
 import 'package:efood_multivendor_driver/data/api/api_checker.dart';
 import 'package:efood_multivendor_driver/data/api/api_client.dart';
 import 'package:efood_multivendor_driver/data/model/body/laundry_place_order_body.dart';
@@ -24,7 +24,6 @@ import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pdf/pdf.dart';
@@ -275,7 +274,7 @@ class OrderController extends GetxController implements GetxService {
   Future<void> updateOrder(LaundryPlaceOrderBody placeOrderBody, Function callback) async {
     _isLoading = true;
     update();
-    print(placeOrderBody.toJson());
+    log('Moiz ${placeOrderBody.toJson()}');
     Response response = await orderRepo.updateOrder(placeOrderBody);
     _isLoading = false;
     if (response.statusCode == 200) {
@@ -437,9 +436,9 @@ class OrderController extends GetxController implements GetxService {
     Response response = await orderRepo.getOrdersDetails(orderId);
     _isLoading = false;
     if (response.statusCode == 200) {
-      LaundryOrderDetailsModel _orderListModel = LaundryOrderDetailsModel.fromJson(response.body);
-      _laundryOrderDetailsModel = _orderListModel.data;
-    } else {
+      //LaundryOrderDetailsModel _orderListModel = LaundryOrderDetailsModel.fromJson(response.body);
+      _laundryOrderDetailsModel = LaundryOrderDetails.fromJson(response.body);
+      } else {
       ApiChecker.checkApi(response);
     }
     update();
@@ -612,6 +611,7 @@ class OrderController extends GetxController implements GetxService {
         price: laundryOrderDetail.price.toDouble(),
         name: laundryOrderDetail.laundryItem.name,
         detailsId: laundryOrderDetail.id,
+        addons: laundryOrderDetail.laundryItem.addons
       );
       if (cartMap.containsKey(serviceId)) {
         cartMap[serviceId].add(item);

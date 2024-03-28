@@ -1,33 +1,34 @@
-class LaundryOrderDetailsModel {
-  int totalSize;
-  int limit;
-  int offset;
-  LaundryOrderDetails data;
+// class LaundryOrderDetailsModel {
+//   int totalSize;
+//   int limit;
+//   int offset;
+//   LaundryOrderDetails data;
 
 
-  LaundryOrderDetailsModel(
-      {this.totalSize, this.limit, this.offset, this.data});
+//   LaundryOrderDetailsModel(
+//       {this.totalSize, this.limit, this.offset, this.data});
 
-  LaundryOrderDetailsModel.fromJson(Map<String, dynamic> json) {
-    totalSize = json['total_size'];
-    limit = json['limit'];
-    offset = json['offset'];
-    data = json['data'] != null ? new LaundryOrderDetails.fromJson(json['data']) : null;
+//   LaundryOrderDetailsModel.fromJson(Map<String, dynamic> json) {
+//     totalSize = json['total_size'];
+//     limit = json['limit'];
+//     offset = json['offset'];
+//     data = json['data'] != null ? new LaundryOrderDetails.fromJson(json['data']) : null;
 
-  }
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total_size'] = this.totalSize;
-    data['limit'] = this.limit;
-    data['offset'] = this.offset;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['total_size'] = this.totalSize;
+//     data['limit'] = this.limit;
+//     data['offset'] = this.offset;
+//     if (this.data != null) {
+//       data['data'] = this.data.toJson();
+//     }
 
-    return data;
-  }
-}
+//     return data;
+//   }
+// }
+
 
 class LaundryOrderDetails {
   int id;
@@ -45,8 +46,8 @@ class LaundryOrderDetails {
   String deliveryTime;
   String deliveryCharge;
   int barCode;
-  double taxAmount;
-  double discountAmount;
+  int taxAmount;
+  int discountAmount;
   String distance;
   String note;
   String pickupScheduleAt;
@@ -105,7 +106,7 @@ class LaundryOrderDetails {
     id = json['id'];
     deliverymanId = json['deliveryman_id'];
     orderStatus = json['order_status'];
-    orderAmount = json['order_amount'].toDouble();
+    orderAmount = json['order_amount'] != null ? json['order_amount'].toDouble() : 0;
     paymentStatus = json['payment_status'];
     paymentMethod = json['payment_method'];
     transactionReference = json['transaction_reference'];
@@ -127,8 +128,8 @@ class LaundryOrderDetails {
     deliveryTime = json['delivery_time'];
     deliveryCharge = json['delivery_charge'];
     barCode = json['bar_code'];
-    taxAmount = json['tax_amount'].toDouble();
-    discountAmount = json['discount_amount'].toDouble();
+    taxAmount = json['tax_amount'];
+    discountAmount = json['discount_amount'];
     distance = json['distance'];
     note = json['note'];
     pickupScheduleAt = json['pickup_schedule_at'];
@@ -320,7 +321,7 @@ class Details {
         ? new LaundryItem.fromJson(json['laundry_item'])
         : null;
     quantity = json['quantity'];
-    price = json['price'].toDouble();
+    price = json['price'] != null ? json['price'].toDouble() : 0;
     barCode = json['bar_code'];
     processing = json['processing'];
     processed = json['processed'];
@@ -374,6 +375,40 @@ class Service {
   }
 }
 
+
+class Addons{
+  int id;
+  String name;
+  double price;
+  int qty;
+
+  Addons({this.id,
+      this.name,
+      this.price,
+      this.qty
+      });
+
+  Addons.fromJson(Map<String, dynamic> json) {
+    id = json['addon_id'];
+    name = json['addon_name'];
+    price = double.parse(json['price']);
+    qty = json['qty']; 
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['price'] = this.price;
+    data['qty'] = this.qty;
+    return data;
+  }
+
+  void removeAt(int k) {}
+}
+
+
+
 class LaundryItem {
   int id;
   String icon;
@@ -381,17 +416,24 @@ class LaundryItem {
   double price;
   int status;
   String createdAt;
+  List<Addons> addons;
 
   LaundryItem(
-      {this.id, this.icon, this.name, this.price, this.status, this.createdAt});
+      {this.id, this.icon, this.name, this.price, this.status, this.createdAt, this.addons});
 
   LaundryItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     icon = json['icon'];
     name = json['name'];
-    price = json['price'].toDouble();
+    price = json['price'];
     status = json['status'];
     createdAt = json['created_at'];
+     if (json['addons'] != null) {
+      addons = <Addons>[];
+      json['addons'].forEach((v) {
+        addons.add(new Addons.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -402,6 +444,9 @@ class LaundryItem {
     data['price'] = this.price;
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
+    if (this.addons != null) {
+      data['addons'] = this.addons.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

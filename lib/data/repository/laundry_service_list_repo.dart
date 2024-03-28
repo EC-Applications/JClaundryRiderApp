@@ -9,7 +9,7 @@ class LaundryServiceListRepo {
   LaundryServiceListRepo({@required this.apiClient});
 
   Future<Response> getServiceItemList({@required int serviceId}) async {
-    return await apiClient.getData('${AppConstants.LAUNDRY_SERVICE_ITEM}/$serviceId?limit=200&offset=1');
+    return await apiClient.getData('${AppConstants.LAUNDRY_SERVICE_ITEM}$serviceId?limit=200&offset=1');
   }
 
 }

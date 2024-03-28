@@ -9,7 +9,6 @@ import 'package:efood_multivendor_driver/theme/dark_theme.dart';
 import 'package:efood_multivendor_driver/theme/light_theme.dart';
 import 'package:efood_multivendor_driver/util/app_constants.dart';
 import 'package:efood_multivendor_driver/util/messages.dart';
-import 'package:efood_multivendor_driver/view/screens/home/home_screen.dart';
 import 'package:efood_multivendor_driver/view/screens/home/widget/custom_navigator_observer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

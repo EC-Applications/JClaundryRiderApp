@@ -39,9 +39,11 @@ class AppConstants {
   static const String ZONE_URI = '/api/v1/config/get-zone-id';
   static const String DOCUMENTS_URI = '/api/v1/delivery-man/documents?token=';
   static const String ORDER_STATUS_UPDATE = '/api/delivery-man/laundry/order/update-order-status';
-  static const String ORDER_DETAILS = '/api/delivery-man/laundry/order/details';
+  //static const String ORDER_DETAILS = '/api/delivery-man/laundry/order/details';// Previous One
+  static const String ORDER_DETAILS = '/api/v1/delivery-man/laundry-order-details';
   static const String LAUNDRY_SERVICE = '/api/services/list';
-  static const String LAUNDRY_SERVICE_ITEM = '/api/laundry-item/list';
+  //static const String LAUNDRY_SERVICE_ITEM = '/api/laundry-item/list';//Previous One
+  static const String LAUNDRY_SERVICE_ITEM = '/api/v1/laundry-item/list/service/';
   static const String LAUNDRY_ORDER_UPDATE = '/api/delivery-man/laundry/order/update-order';
   static const String All_ROUTES = '/api/delivery-man/laundry/get-routes';
   static const String PICK_ORDER_ROUTE = '/api/laundry-config/get-routes';

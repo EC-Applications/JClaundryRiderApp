@@ -2,6 +2,8 @@
 import 'package:efood_multivendor_driver/data/model/body/laundry_place_order_body.dart';
 import 'package:get/get.dart';
 
+import '../data/model/response/laundry_order_details_model.dart';
+
 class LaundryCartController extends GetxController implements GetxService {
 
 
@@ -16,8 +18,9 @@ class LaundryCartController extends GetxController implements GetxService {
   double get deliveryFee => _deliveryFee;
   double get tax => _tax;
 
-  void addToCart(int servicesId, int laundryItemId, int quantity, double price, String itemName) {
+  void addToCart(int servicesId, int laundryItemId, int quantity, double price, String itemName, {int addon_id,int addon_quantity}) {
     Cart cartItem;
+    List<Addons> addonList;
     for (int i = 0; i < _cartList.length; i++) {
       if (_cartList[i].servicesId == servicesId) {
         cartItem = _cartList[i];
@@ -26,21 +29,35 @@ class LaundryCartController extends GetxController implements GetxService {
     }
     if (cartItem != null) {
       LaundryItemList item;
+      Addons addons;
       for (int i = 0; i < cartItem.items.length; i++) {
         if (cartItem.items[i].laundryItemId == laundryItemId) {
           item = cartItem.items[i];
+          if(addon_id != null && addon_quantity != null){
+            for (int j = 0; j < item.addons.length; j++) {
+              if (item.addons[j].id == addon_id) {
+                  addons = cartItem.items[i].addons[j];
+                  addonList.add(cartItem.items[i].addons[j]); 
+              }
+            }
+          }
           break;
         }
       }
       if (item != null) {
         item.quantity += quantity;
+        if(addon_id != null && addon_quantity != null){
+        addons.qty += addon_quantity;
+        }
       } else {
+
         cartItem.items.add(
           LaundryItemList(
             laundryItemId: laundryItemId,
             quantity: quantity,
             price: price,
             name: itemName,
+            addons: addonList != null ? addonList : <Addons>[]
           ),
         );
       }
@@ -54,6 +71,7 @@ class LaundryCartController extends GetxController implements GetxService {
               quantity: quantity,
               price: price,
               name: itemName,
+              addons: addonList != null ? addonList : <Addons>[]
             ),
           ],
         ),
@@ -75,10 +93,21 @@ class LaundryCartController extends GetxController implements GetxService {
     return 0;
   }
 
-
-
-
-
+int getQuantityAddon(int addonId, int laundryItemId, int servicesId) {
+    for (int i = 0; i < _cartList.length; i++) {
+      if (_cartList[i].servicesId == servicesId) {
+        for (int j = 0; j < _cartList[i].items.length; j++) {
+          if (_cartList[i].items[j].laundryItemId == laundryItemId) {
+        for (int k = 0; k < _cartList[i].items[j].addons.length ; k++) {
+          if (_cartList[i].items[j].addons[k].id == addonId) {
+            return _cartList[i].items[j].addons[k].qty;
+          }}}
+        }
+      }
+    }
+    return 0;
+  }
+  
   void setQuantity(int laundryItemId, int serviceId, bool isIncrement) {
     for (int i = 0; i < _cartList.length; i++) {
       if (_cartList[i].servicesId == serviceId) {
@@ -111,6 +140,43 @@ class LaundryCartController extends GetxController implements GetxService {
     update();
   }
 
+  void setQuantityAddon(int laundryItemId, int serviceId,int addonId, bool isIncrement) {
+    for (int i = 0; i < _cartList.length; i++) {
+      if (_cartList[i].servicesId == serviceId) {
+        for (int j = 0; j < _cartList[i].items.length; j++) {
+          if (_cartList[i].items[j].laundryItemId == laundryItemId) {
+        for (int k = 0; k < _cartList[i].items[j].addons.length; k++) {
+            
+            if (isIncrement) {
+              _cartList[i].items[j].addons[k].qty += 1;
+            } else {
+              if (_cartList[i].items[j].addons[k].qty > 1) {
+                _cartList[i].items[j].addons[k].qty -= 1;
+              } else {
+                if (_cartList[i].items[j].detailsId == null) {
+                  _cartList[i].items[j].addons[k].removeAt(k);
+                }else {
+                  _cartList[i].items[j].addons[k].qty = 0;
+                }
+              }
+            }
+
+            break;
+        }
+          }
+        }
+
+        if (_cartList[i].items.isEmpty) {
+          _cartList.removeAt(i);
+        }
+        break;
+      }
+    }
+    update();
+  }
+
+
+
 
   int get totalItems {
     int count = 0;
@@ -128,6 +194,11 @@ class LaundryCartController extends GetxController implements GetxService {
     for (Cart cartItem in _cartList) {
       for (LaundryItemList item in cartItem.items) {
         total += item.price * item.quantity;
+        if(item.addons.length > 0){
+        for (Addons addon in item.addons) {
+        total += addon.price * addon.qty;
+        }
+        }
       }
     }
     return total;
@@ -233,7 +304,29 @@ class LaundryCartController extends GetxController implements GetxService {
     List<Cart> cartList = [];
     for (Cart cartItem in _cartList) {
       List<LaundryItemList> _laundryItemList = [];
+      List<Addons> _addonList = [];
+      
       for (LaundryItemList item in cartItem.items) {
+        for (Addons addon in item.addons) {
+        if(addon.qty != 0)
+        {
+          _addonList.add(new Addons(
+            name: addon.name,
+            price: addon.price,
+            qty: addon.qty,
+            id: addon.id
+          ));
+        }
+        else{
+           _addonList.add(new Addons(
+            name: addon.name,
+            price: addon.price,
+            qty: addon.qty,
+            id: addon.id
+          ));
+        }
+        }
+      
         if (item.quantity != 0) {
           _laundryItemList.add(
             LaundryItemList(
@@ -242,6 +335,7 @@ class LaundryCartController extends GetxController implements GetxService {
               price: item.price,
               name: item.name,
               detailsId: null,
+              addons: _addonList
             ),
           );
         } else {
@@ -252,6 +346,7 @@ class LaundryCartController extends GetxController implements GetxService {
               price: item.price,
               name: item.name,
               detailsId: item.detailsId,
+              addons: _addonList
             ),
           );
         }

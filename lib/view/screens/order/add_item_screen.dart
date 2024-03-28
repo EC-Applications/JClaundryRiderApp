@@ -21,6 +21,7 @@ class AddItemScreen extends StatelessWidget {
     await Get.find<LaundryServiceController>().getServiceList();
     if (Get.find<LaundryServiceController>().serviceList != null) {
       await Get.find<LaundryServiceListController>().getServiceItemList(serviceId: Get.find<LaundryServiceController>().serviceList[0].id);
+      Get.find<LaundryServiceListController>().setServiceId(Get.find<LaundryServiceController>().serviceList[0].id);
     }
 
   }
@@ -53,6 +54,7 @@ class AddItemScreen extends StatelessWidget {
                         return InkWell(
                           onTap: () async{
                             orderController.setSelectedIndex(index);
+                            serviceController.setServicesId(service.id);
                             await serviceListController.getServiceItemList(serviceId: service.id);
                           },
                           child: Padding(
@@ -86,12 +88,30 @@ class AddItemScreen extends StatelessWidget {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: Dimensions.PADDING_SIZE_SMALL),
                           child: ProductViewLaundry(
-                            servicesId: serviceController.serviceList[orderController.selectedIndex].id,
-                            laundryItemId: serviceItem.id,
-                            imgUrl: '${_baseUrls.laundryItemsImageUrl}/${serviceListController.serviceItemList[index].icon}',
-                            productName: '${serviceListController.serviceItemList[index].name}',
-                            productPrice: '${serviceListController.serviceItemList[index].price.toDouble()}',
-                          ),
+                              servicesId: serviceController.servicesId,
+                              laundryItemId: serviceItem.id,
+                              imgUrl: '${_baseUrls.laundryItemsImageUrl}/${serviceItem.icon}',
+                              productName: serviceItem.name,
+                              actualPrice: serviceItem.price,
+                              isFromCart: true,
+                              discountedPrice: serviceListController.campaign != null ? serviceListController.campaign.price.toString() : "0",
+                              isDiscounted: serviceListController.campaign!= null ? true : false,
+                              percatage: serviceListController.campaign != null ? serviceListController.campaign.discount: 0,
+                              addons : serviceItem.addons != null ? serviceItem.addons : null
+                              
+                            ),
+
+
+
+
+//---------------------------------------------------Moiz Product View Laundry -----------------------------------------
+                          // ProductViewLaundry(
+                          //   servicesId: serviceController.serviceList[orderController.selectedIndex].id,
+                          //   laundryItemId: serviceItem.id,
+                          //   imgUrl: '${_baseUrls.laundryItemsImageUrl}/${serviceListController.serviceItemList[index].icon}',
+                          //   productName: '${serviceListController.serviceItemList[index].name}',
+                          //   productPrice: '${serviceListController.serviceItemList[index].price.toDouble()}',
+                          // ),
                         );
                       },
                     ),

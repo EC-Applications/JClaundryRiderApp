@@ -1,6 +1,5 @@
 
 import 'package:efood_multivendor_driver/data/api/api_client.dart';
-import 'package:efood_multivendor_driver/data/model/body/laundry_place_order_body.dart';
 import 'package:efood_multivendor_driver/data/model/body/pick_order_map_body.dart';
 import 'package:efood_multivendor_driver/data/model/body/update_status_body.dart';
 import 'package:efood_multivendor_driver/util/app_constants.dart';
@@ -9,6 +8,8 @@ import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:get/state_manager.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../model/body/laundry_place_order_body.dart';
 
 class OrderRepo extends GetxService {
   final ApiClient apiClient;
@@ -32,7 +33,7 @@ class OrderRepo extends GetxService {
   }
 
   Future<Response> updateOrder(LaundryPlaceOrderBody orderBody) async {
-    return await apiClient.putData(AppConstants.LAUNDRY_ORDER_UPDATE, orderBody.toJson());
+    return await apiClient.putData('${AppConstants.LAUNDRY_ORDER_UPDATE}', orderBody.toJson());
   }
 
   Future<Response> getALlRoutes() async {

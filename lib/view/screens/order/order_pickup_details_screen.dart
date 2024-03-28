@@ -2,7 +2,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:efood_multivendor_driver/controller/auth_controller.dart';
 import 'package:efood_multivendor_driver/controller/laundry_cart_controller.dart';
 import 'package:efood_multivendor_driver/controller/order_controller.dart';
-import 'package:efood_multivendor_driver/data/model/body/laundry_place_order_body.dart';
 import 'package:efood_multivendor_driver/data/model/body/pick_order_map_body.dart';
 import 'package:efood_multivendor_driver/data/model/body/update_status_body.dart';
 import 'package:efood_multivendor_driver/data/model/response/order_list_model.dart';
@@ -17,8 +16,6 @@ import 'package:efood_multivendor_driver/view/base/custom_app_bar.dart';
 import 'package:efood_multivendor_driver/view/base/custom_button.dart';
 import 'package:efood_multivendor_driver/view/base/Custom_button_sec.dart';
 import 'package:efood_multivendor_driver/view/base/custom_snackbar.dart';
-import 'package:efood_multivendor_driver/view/base/custom_text_field.dart';
-import 'package:efood_multivendor_driver/view/screens/dashboard/dashboard_screen.dart';
 import 'package:efood_multivendor_driver/view/screens/home/widget/custom_dotted_line.dart';
 import 'package:efood_multivendor_driver/view/screens/order/widget/laundry_item_view.dart';
 import 'package:efood_multivendor_driver/view/screens/order/widget/order_details_view.dart';
@@ -26,17 +23,13 @@ import 'package:efood_multivendor_driver/view/screens/order/widget/slider_button
 import 'package:efood_multivendor_driver/view/screens/order/widget/verify_delivery_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pdf/pdf.dart';
-import 'package:printing/printing.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../data/model/body/laundry_place_order_body.dart';
 
-import 'widget/generate_invoice.dart';
 
 
-import 'package:esc_pos_utils/esc_pos_utils.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart' as esc;
-import 'package:esc_pos_printer/esc_pos_printer.dart';
+
 
 
 
@@ -524,11 +517,12 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                     Get.find<AuthController>()
                                                         .getUserToken(),
                                                 orderId: orderController
-                                                    .laundryOrderDetailsModel.id
-                                                    .toString(),
+                                                    .laundryOrderDetailsModel.id,
                                                 // cart: cartController.getCartList(),
                                                 cart: cartController.cartList,
-                                              ),
+                                              )
+                                              //orderController.laundryOrderDetailsModel
+                                              ,
                                               _callBack);
                                           orderController.setEditedValue(false);
                                         } else {
@@ -560,7 +554,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
                                                 orderController
                                                     .setMarkAsPickedValue(true);
                                                 setState(() {});
-                                                await orderController.printinoivce();
+                                                orderController.printinoivce();
 
                                               }));
                                     
@@ -1307,7 +1301,7 @@ class _OrderPickupDetailsScreenState extends State<OrderPickupDetailsScreen> {
 
                                           setState(() {});
                                         } else {
-                                          await orderController.printinoivce();
+                                          orderController.printinoivce();
                                           Get.bottomSheet(
                                             VerifyDeliverySheet(
                                               cod: true,
